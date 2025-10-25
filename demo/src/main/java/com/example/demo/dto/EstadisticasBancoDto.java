@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.dto;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EstadisticasBanco {
+public class EstadisticasBancoDto {
     private UUID id;
     private double montoTotalCuentas;
     private double montoTotalInvertidoCDT;
@@ -23,4 +23,4 @@ public class EstadisticasBanco {
     private int totalCuentasActivas;
     private int totalTarjetasActivas;
     private LocalDate fechaActualizacion;
-} 
+}
