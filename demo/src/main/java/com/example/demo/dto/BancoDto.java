@@ -1,13 +1,5 @@
 package com.example.demo.dto;
 
-import java.util.List;
-import java.util.UUID;
-
-import com.example.demo.entity.CDT;
-import com.example.demo.entity.Cliente;
-import com.example.demo.entity.CuentaAhorros;
-import com.example.demo.entity.TarjetaCredito;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
