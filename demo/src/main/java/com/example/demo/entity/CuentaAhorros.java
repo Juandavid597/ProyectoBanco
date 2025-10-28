@@ -20,4 +20,20 @@ public class CuentaAhorros {
     private LocalDate fechaCreacion;
     private boolean activa;
     private String tipoCuenta;
+
+
+
+    public CuentaAhorros(String numeroCuenta, Cliente propietario, double saldo, LocalDate fechaCreacion,
+            boolean activa, String tipoCuenta) {
+
+        this.id = UUID.randomUUID();
+        this.fechaCreacion = LocalDate.now();
+        this.numeroCuenta = numeroCuenta;
+        this.propietario = propietario;
+        this.saldo = saldo;
+        this.activa = activa;
+        this.tipoCuenta = tipoCuenta;
+    }
+
+    
 }

@@ -20,4 +20,27 @@ public class Compra {
     private LocalDate fechaCompra;
     private String descripcion;
     private String referenciaPago;
+
+
+    public Compra(double valorOriginal, int cuotas, double interesMensual, double totalConInteres,
+            double saldoPendiente, LocalDate fechaCompra, String descripcion, String referenciaPago) {
+
+        this.id = UUID.randomUUID();
+        this.fechaCompra = LocalDate.now();
+        this.referenciaPago = referenciaPago; 
+        this.valorOriginal = valorOriginal;
+        this.cuotas = cuotas;
+        this.interesMensual = interesMensual;
+        this.totalConInteres = totalConInteres;
+        this.saldoPendiente = saldoPendiente;
+        this.descripcion = descripcion;
+        
+    }
+        //Pendiente verificar que funcione la referencia automatimaticamente
+      public  String referenciaPago(){
+
+        return "PAY-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+
+    }
+
 }

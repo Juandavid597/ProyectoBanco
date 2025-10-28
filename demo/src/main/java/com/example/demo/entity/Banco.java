@@ -19,4 +19,18 @@ public class Banco {
     private List<TarjetaCredito> tarjetas;
     private double totalGananciasCDT;
     private double totalDineroEnCuentas;
+
+
+
+    public Banco(String nombre, double totalGananciasCDT, double totalDineroEnCuentas) {
+        
+        this.id = UUID.randomUUID();
+        this.nombre = nombre;
+        this.totalGananciasCDT = totalGananciasCDT;
+        this.totalDineroEnCuentas = totalDineroEnCuentas;
+    }
+
+
+    
+
 }

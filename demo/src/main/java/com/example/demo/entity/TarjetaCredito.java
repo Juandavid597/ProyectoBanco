@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class TarjetaCredito {
     private UUID id;
     private String numeroTarjeta;
@@ -23,4 +24,24 @@ public class TarjetaCredito {
     private LocalDate fechaVencimiento;
     private double pagoMinimoPorcentaje;
     private boolean activa;
+
+
+    public TarjetaCredito(String numeroTarjeta, Cliente titular, double cupoTotal, double cupoDisponible,
+            double deudaActual, LocalDate fechaEmision, LocalDate fechaVencimiento, double pagoMinimoPorcentaje,
+            boolean activa) {
+
+
+        this.id = UUID.randomUUID();
+        this.fechaEmision = LocalDate.now();  
+        this.fechaVencimiento = fechaVencimiento.plusDays();    // validar el plazo para registrar
+        this.numeroTarjeta = numeroTarjeta;
+        this.titular = titular;
+        this.cupoTotal = cupoTotal;
+        this.cupoDisponible = cupoDisponible;
+        this.deudaActual = deudaActual;
+        this.pagoMinimoPorcentaje = pagoMinimoPorcentaje;
+        this.activa = activa;
+    }
+
+    
 }

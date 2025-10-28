@@ -22,4 +22,22 @@ public class Cliente {
     private TarjetaCredito tarjeta;
     private LocalDate fechaRegistro;
     private boolean activo;
+
+
+    public Cliente(String nombre, String documento, String email, String telefono, CuentaAhorros cuenta,
+            TarjetaCredito tarjeta, boolean activo) {
+
+        this.id = UUID.randomUUID();
+        this.fechaRegistro = LocalDate.now();
+        this.nombre = nombre;
+        this.documento = documento;
+        this.email = email;
+        this.telefono = telefono;
+        this.cuenta = cuenta;
+        this.tarjeta = tarjeta;
+        this.activo = activo;
+    }
+
+
+    
 }

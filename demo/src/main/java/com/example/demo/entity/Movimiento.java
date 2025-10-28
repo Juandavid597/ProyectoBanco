@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
+
 public class Movimiento {
     private UUID id;
     private String tipo;
@@ -20,4 +22,29 @@ public class Movimiento {
     private LocalDateTime fecha;
     private String referencia;
     private String cuentaRelacionada;
+
+
+    public Movimiento(String tipo, double monto, double saldoAntes, double saldoDespues, String descripcion,
+            LocalDateTime fecha, String referencia, String cuentaRelacionada) {
+
+        this.id = UUID.randomUUID();      
+        this.tipo = tipo;
+        this.monto = monto;
+        this.saldoAntes = saldoAntes;
+        this.saldoDespues = saldoDespues;
+        this.descripcion = descripcion;
+        this.fecha = fecha;
+        this.referencia = referencia;
+        this.cuentaRelacionada = cuentaRelacionada;
+    }
+
+
+     
+        //Pendiente verificar que funcione la referencia automatimaticamente
+      public  String referenciaPago(){
+
+        return "PAY-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+
+    }
+    
 }

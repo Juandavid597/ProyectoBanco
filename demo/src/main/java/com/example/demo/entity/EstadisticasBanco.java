@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class EstadisticasBanco {
+
     private UUID id;
     private double montoTotalCuentas;
     private double montoTotalInvertidoCDT;
@@ -23,4 +25,25 @@ public class EstadisticasBanco {
     private int totalCuentasActivas;
     private int totalTarjetasActivas;
     private LocalDate fechaActualizacion;
+
+
+    public EstadisticasBanco(double montoTotalCuentas, double montoTotalInvertidoCDT, double gananciasTotalesCDT,
+            double deudaTotalTarjetas, double promedioSaldoPorCliente, double promedioDeudaPorTarjeta,
+            int totalClientes, int totalCDTsActivos, int totalCuentasActivas, int totalTarjetasActivas) {
+
+        this.fechaActualizacion = LocalDate.now();
+        this.montoTotalCuentas = montoTotalCuentas;
+        this.montoTotalInvertidoCDT = montoTotalInvertidoCDT;
+        this.gananciasTotalesCDT = gananciasTotalesCDT;
+        this.deudaTotalTarjetas = deudaTotalTarjetas;
+        this.promedioSaldoPorCliente = promedioSaldoPorCliente;
+        this.promedioDeudaPorTarjeta = promedioDeudaPorTarjeta;
+        this.totalClientes = totalClientes;
+        this.totalCDTsActivos = totalCDTsActivos;
+        this.totalCuentasActivas = totalCuentasActivas;
+        this.totalTarjetasActivas = totalTarjetasActivas;
+        
+    }
+
+    
 } 
