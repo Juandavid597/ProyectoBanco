@@ -1,12 +1,14 @@
 package com.example.demo.dto;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.UUID;
 
 import com.example.demo.entity.Cliente;
-import com.example.demo.entity.Movimiento;
 
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,12 +17,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CuentaDeAhorroDto {
-    private UUID id;
+    @NotBlank(message = "El número de cuenta es obligatorio")
     private String numeroCuenta;
+
+    @NotNull(message = "El propietario no puede ser nulo")
     private Cliente propietario;
+
+    @Min(value = 0, message = "El saldo no puede ser negativo")
     private double saldo;
-    private List<Movimiento> movimientos;
+
+    @NotNull(message = "La fecha de creación es obligatoria")
+    @PastOrPresent(message = "La fecha de creación no puede ser futura")
     private LocalDate fechaCreacion;
-    private boolean activa;
+
+    @NotBlank(message = "El tipo de cuenta es obligatorio")
     private String tipoCuenta;
 }

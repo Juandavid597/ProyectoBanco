@@ -29,8 +29,4 @@ public class ResponseHelper {
     public static ResponseEntity<?> catchResponse(Exception e){
         return response(HttpStatus.INTERNAL_SERVER_ERROR, false, "", e.getMessage());
     }
-
-    
-
-
 }

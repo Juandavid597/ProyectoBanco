@@ -1,12 +1,9 @@
 package com.example.demo.dto;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.UUID;
-
 import com.example.demo.entity.Cliente;
-import com.example.demo.entity.Compra;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,15 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TarjetaCreditoDto {
-    private UUID id;
+    @NotBlank(message = "El número de tarjeta es obligatorio")
     private String numeroTarjeta;
+
+    @NotNull(message = "El titular de la tarjeta no puede ser nulo")
     private Cliente titular;
-    private double cupoTotal;
-    private double cupoDisponible;
-    private double deudaActual;
-    private List<Compra> compras;
-    private LocalDate fechaEmision;
-    private LocalDate fechaVencimiento;
-    private double pagoMinimoPorcentaje;
-    private boolean activa;
+
+    private double pagoMinimoPorcentaje; // validar si entra en el DTO
 }
