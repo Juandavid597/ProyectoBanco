@@ -34,6 +34,12 @@ public class ClienteDto {
     @Pattern(regexp = "\\d{9,15}", message = "El número de teléfono debe contener entre 9 y 15 dígitos")
     private String telefono;
 
+
+
+
+
+    // validar si estos datos se solicitan al cliente teniendo en cuenta que vienen de otra entidad, para mi este DTO es para 
+    // los datos iniciales de registro del seller
     @NotNull(message = "La cuenta de ahorros no puede ser nula")
     private CuentaAhorros cuenta;
 
