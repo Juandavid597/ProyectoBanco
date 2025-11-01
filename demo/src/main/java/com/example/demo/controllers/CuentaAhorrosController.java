@@ -7,6 +7,6 @@ public class CuentaAhorrosController {
 
 
     @RestController
-    @RequestMapping(/)
+    @RequestMapping
     
 }
