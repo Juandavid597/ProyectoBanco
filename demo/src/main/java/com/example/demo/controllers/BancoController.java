@@ -6,27 +6,22 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.BancoDto;
-import com.example.demo.dto.ClienteDto;
+import com.example.demo.entity.Banco;
 import com.example.demo.entity.Cliente;
 import com.example.demo.helpers.ResponseHelper;
-
-import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/banco")
 public class BancoController {
     List<Cliente> clientes = new ArrayList<>();
+    List<Banco> bancos = new ArrayList<>();
 
     @GetMapping
     public ResponseEntity<?> listarClientes() {
@@ -51,21 +46,4 @@ public class BancoController {
             return ResponseHelper.catchResponse(e);
         }
     }
-
-    @PostMapping
-    public ResponseEntity<?> crearCliente(@Valid @RequestBody ClienteDto clientes, BindingResult result) {
-
-        if (result.hasErrors()) {
-            return ResponseHelper.validFields(result);
-        }
-
-        try {
-
-            Cliente clienteNuevo = new Cliente(UUID.randomUUID(), ) 
-            return ResponseHelper.response(HttpStatus.OK, true, clientes, "Este metodo debe mostrar la lista de clientes");
-        } catch (Exception e) {
-            return ResponseHelper.catchResponse(e);
-        }
-    }
-
 }

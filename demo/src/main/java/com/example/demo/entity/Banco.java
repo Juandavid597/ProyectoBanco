@@ -13,7 +13,7 @@ public class Banco {
     private static Banco instancia;
 
     private UUID id;
-    private String nombre;
+    private String nombre = "Banco Real de Antioquia";
     private List<Cliente> clientes;
     private List<CuentaAhorros> cuentas;
     private List<CDT> cdts;
