@@ -32,7 +32,7 @@ public class ClienteController {
     
     private List<Cliente> clientes = new ArrayList<>();
 
-    @GetMapping("/listar")
+    @GetMapping
     public ResponseEntity<?> listarClientes(){
 
 
@@ -47,12 +47,12 @@ public class ClienteController {
 
     }
 
-    @GetMapping("listar/{documento}") //buscar información de cuenta por numero de documento
-    public ResponseEntity<?> ListarClientesDocumento(@PathVariable String documento){
+    @GetMapping("{id}") //buscar información de cuenta por numero de documento
+    public ResponseEntity<?> ListarClientesDocumento(@PathVariable UUID id){
 
         try{
 
-            Cliente clientesFound = clientes.stream().filter((item -> item.getDocumento().equals(documento))).findFirst().orElse(null);
+            Cliente clientesFound = clientes.stream().filter((item -> item.getId().equals(id))).findFirst().orElse(null);
 
             if (clientesFound == null){
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encontro registro de cliente con el Id");
@@ -68,8 +68,8 @@ public class ClienteController {
     }
 
 
-    @PostMapping("crear")
-    public ResponseEntity<?> crearCuentaAhorros(@Valid @RequestBody ClienteDto cliente, BindingResult result){
+    @PostMapping
+    public ResponseEntity<?> crearCliente(@Valid @RequestBody ClienteDto cliente, BindingResult result){
 // Validar que el documento no esté registrado
 // Solicitar saldo inicial (mínimo $10.000) = OK
 // Generar número de cuenta único (puede usar UUID o formato numérico) = OK -> se segiere en la clase cuenta de ahorros, pero para el metodo lo solicita el flujo, revisar con PROFESOR
@@ -91,14 +91,12 @@ public class ClienteController {
             }
 
             //Si no existe el documento agregar a la lista de clientes 
-            //VALIDAR SI SALDO ENTRA TAMBIEN EN LA LISTA DE CLIENTES O CÓMO GUARDARLO EN LA LISTA DE CUENTA DE AHORROS
-            Cliente newClient = new Cliente(cliente.getNombre(),cliente.getDocumento(),cliente.getEmail(),cliente.getTelefono(),cliente.getSaldo());
+    
+            Cliente newClient = new Cliente(cliente.getNombre(),cliente.getDocumento(),cliente.getEmail(),cliente.getTelefono(),true);
 
             clientes.add(newClient);
 
-            return ResponseHelper.response(HttpStatus.OK, true, newClient, "Se creo exitosamente el cleinte en el banco y se asigno una cuenta de ahorros");
-
-
+            return ResponseHelper.response(HttpStatus.OK, true, newClient, "El cliente se creo exitosamente en el banco");
 
         }
 
@@ -108,30 +106,113 @@ public class ClienteController {
     }
 
     
-    @PutMapping("actualizar/{id}")
-    public ResponseEntity<?> actualizarCliente(@PathVariable UUID id, @Valid @RequestBody ClienteDto cliente, BindingResult result){
+    @PutMapping("{id}")
+    public ResponseEntity<?> actualizarCliente(@PathVariable UUID id, @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result){
+
+        if(result.hasErrors()){
+            return ResponseHelper.validFields(result);
+        }
+
+        try{
+            Cliente clientefound = clientes.stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
+
+            if(clientefound == null){
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentran clientes con el id ingresado");
+            }
 
 
+            // ** validar si le van a cambiar el correo a el usuario
+            if (!clientefound.getDocumento().equals(actualizarCliente.getDocumento())){
 
+            //Validar numero de documento sea unico
+            Boolean existDocument = clientes.stream().anyMatch(item -> item.getDocumento().equals(actualizarCliente.getDocumento()));
+
+            if(existDocument){
+                return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "Ya se encuentra un registro con el numero de documento");
+
+            }
+            }
+
+            clientefound.setNombre(actualizarCliente.getNombre());
+            clientefound.setDocumento(actualizarCliente.getDocumento());
+            clientefound.setEmail(actualizarCliente.getEmail());
+            clientefound.setTelefono(actualizarCliente.getTelefono());
+
+            return ResponseHelper.response(HttpStatus.OK, true, actualizarCliente, "Cliente actualizado correctamente");
+
+        }
+
+
+        catch (Exception e){
+            return ResponseHelper.catchResponse(e);
+        }
+
+     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarCliente(@PathVariable UUID id){
+
+        try{
+
+            Cliente clienteFound = clientes.stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
+
+            if(clienteFound == null){
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "Cliente no encontrado");
+            }
+
+            clientes.remove(clienteFound);
+            return ResponseHelper.response(HttpStatus.OK, true, clienteFound, "Cliente eliminado correctamente");
+
+        }
+
+        catch (Exception e){
+            return ResponseHelper.catchResponse(e);
+        }
     }
 
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<?> eliminarCliente(@PathVariable UUID id){
 
-    // }
+    @PostMapping("crearCuenta")
+    public ResponseEntity<?> crearCuenta(){
+
+        try{
+
+        }
+
+        catch(Exception e){
+            return ResponseHelper.catchResponse(e);
+        }
+    }
+
+
+      @PostMapping("solicitarTarjeta")
+    public ResponseEntity<?> solicitarTarjeta(){
+
+        try{
+
+        }
+
+        catch(Exception e){
+            return ResponseHelper.catchResponse(e);
+        }
+    }
+
+
+      @PostMapping("crearCDT")
+    public ResponseEntity<?> crearCdt(){
+
+        try{
+
+        }
+
+        catch(Exception e){
+            return ResponseHelper.catchResponse(e);
+        }
+    }
+
+
+
+
+
 
 }
 
-
-// // En la clase Banco o clase principal
-// private List<Cliente> clientes = new ArrayList<>();
-
-// // Listas opcionales para búsquedas rápidas o reportes globales
-// private List<CuentaAhorros> todasLasCuentas = new ArrayList<>();
-// private List<CDT> todosLosCDTs = new ArrayList<>();
-// private List<TarjetaCredito> todasLasTarjetas = new ArrayList<>();
-
-// // Para búsquedas rápidas (opcional pero recomendado)
-// private Map<String, Cliente> clientesPorDocumento = new HashMap<>();
-// private Map<String, CuentaAhorros> cuentasPorNumero = new HashMap<>();
-// private Map<String, TarjetaCredito> tarjetasPorNumero = new HashMap<>();

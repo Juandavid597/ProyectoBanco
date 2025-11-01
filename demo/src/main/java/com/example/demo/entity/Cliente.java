@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Cliente {
 
     
@@ -20,38 +22,25 @@ public class Cliente {
     private String documento;
     private String email;
     private String telefono;
-    private double saldo;
     private List<CDT> cdts;
-    private TarjetaCredito tarjeta; //cómo se usa está variable, viene de una lista o la clase de tarjeta?
+    private TarjetaCredito tarjeta;
+    private CuentaAhorros cuenta; 
     private boolean activo;
 
-    // private CuentaAhorros cuenta; //esto no es lo mismo a numero de cuenta que es el que tambien se solicito crear en cuenta de ahorros?
-    
-
-
-    public Cliente(String nombre, String documento, String email, String telefono, double saldo) {
+    public Cliente(String nombre, String documento, String email, String telefono,boolean activo) {
 
         this.id = UUID.randomUUID();
         this.fechaRegistro = LocalDate.now();
+        this.cdts = new ArrayList<>();
         
-
-        // datos solicitados en el DTO
         this.nombre = nombre;
         this.documento = documento;
         this.email = email;
         this.telefono = telefono;
-        
-        
-        this.activo = activo; // cómo se usa esta varaiable, al hacer pruebas en POSTMAN dice que esta inactivo el cliente
-        
-        
+        this.tarjeta = null;
+        this.activo = activo; 
+        this.cuenta = null; 
     }
-
-// CuentaAhorros cuenta - La cuenta del cliente (solo UNA)
-// List<CDT> cdts - Lista de CDTs del cliente
-// TarjetaCredito tarjeta - Tarjeta de crédito (puede ser null)
-
-
 
     
 }

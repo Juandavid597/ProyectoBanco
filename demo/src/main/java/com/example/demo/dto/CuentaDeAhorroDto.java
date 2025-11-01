@@ -17,6 +17,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CuentaDeAhorroDto {
+
+    // Saldo inicial ≥ $10.000 = OK
+
     @NotBlank(message = "El número de cuenta es obligatorio")
     private String numeroCuenta;
 
