@@ -1,7 +1,5 @@
 package com.example.demo.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ClienteDto;
 import com.example.demo.entity.Cliente;
+import com.example.demo.entity.Banco;
 import com.example.demo.helpers.ResponseHelper;
 
 
@@ -29,30 +28,16 @@ import jakarta.validation.Valid;
 @CrossOrigin("*")
 
 public class ClienteController {
-    
-    private List<Cliente> clientes = new ArrayList<>();
-
-    @GetMapping
-    public ResponseEntity<?> listarClientes(){
-
-
-        try{
-            return ResponseHelper.response(HttpStatus.OK, true, clientes, "Listado de todos los clientes creados en el banco");
-
-        }
-
-        catch(Exception e){
-            return ResponseHelper.catchResponse(e);
-        }
-
-    }
+   
+    private static Banco instancia;
+   
 
     @GetMapping("{id}") //buscar información de cuenta por numero de documento
     public ResponseEntity<?> ListarClientesDocumento(@PathVariable UUID id){
 
         try{
 
-            Cliente clientesFound = clientes.stream().filter((item -> item.getId().equals(id))).findFirst().orElse(null);
+            Cliente clientesFound = Banco.getInstancia().getClientes().stream().filter((item -> item.getId().equals(id))).findFirst().orElse(null);
 
             if (clientesFound == null){
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encontro registro de cliente con el Id");
@@ -84,7 +69,7 @@ public class ClienteController {
         try{
 
             //Validar numero de docuemnto sea unico
-            Boolean existDocument = clientes.stream().anyMatch(item -> item.getDocumento().equals(cliente.getDocumento()));
+            Boolean existDocument = Banco.getInstancia().getClientes().stream().anyMatch(item -> item.getDocumento().equals(cliente.getDocumento()));
 
             if(existDocument){
                 return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "Ya se encuentra un registro con el numero de documento");
@@ -94,7 +79,7 @@ public class ClienteController {
     
             Cliente newClient = new Cliente(cliente.getNombre(),cliente.getDocumento(),cliente.getEmail(),cliente.getTelefono(),true);
 
-            clientes.add(newClient);
+            Banco.getInstancia().getClientes().add(newClient);
 
             return ResponseHelper.response(HttpStatus.OK, true, newClient, "El cliente se creo exitosamente en el banco");
 
@@ -114,7 +99,7 @@ public class ClienteController {
         }
 
         try{
-            Cliente clientefound = clientes.stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
+            Cliente clientefound = Banco.getInstancia().getClientes().stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
 
             if(clientefound == null){
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentran clientes con el id ingresado");
@@ -125,7 +110,7 @@ public class ClienteController {
             if (!clientefound.getDocumento().equals(actualizarCliente.getDocumento())){
 
             //Validar numero de documento sea unico
-            Boolean existDocument = clientes.stream().anyMatch(item -> item.getDocumento().equals(actualizarCliente.getDocumento()));
+            Boolean existDocument = Banco.getInstancia().getClientes().stream().anyMatch(item -> item.getDocumento().equals(actualizarCliente.getDocumento()));
 
             if(existDocument){
                 return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "Ya se encuentra un registro con el numero de documento");
@@ -154,13 +139,13 @@ public class ClienteController {
 
         try{
 
-            Cliente clienteFound = clientes.stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
+            Cliente clienteFound = Banco.getInstancia().getClientes().stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
 
             if(clienteFound == null){
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "Cliente no encontrado");
             }
 
-            clientes.remove(clienteFound);
+            Banco.getInstancia().getClientes().remove(clienteFound);
             return ResponseHelper.response(HttpStatus.OK, true, clienteFound, "Cliente eliminado correctamente");
 
         }
