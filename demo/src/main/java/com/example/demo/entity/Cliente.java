@@ -12,30 +12,42 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Cliente {
+
+    
     private UUID id;
+    private LocalDate fechaRegistro;
     private String nombre;
     private String documento;
     private String email;
     private String telefono;
-    private CuentaAhorros cuenta;
+    
+    private double saldo;
     private List<CDT> cdts;
-    private TarjetaCredito tarjeta;
-    private LocalDate fechaRegistro;
+    private TarjetaCredito tarjeta; //cómo se usa está variable, viene de una lista o la clase de tarjeta?
     private boolean activo;
 
+    // private CuentaAhorros cuenta; //esto no es lo mismo a numero de cuenta que es el que tambien se solicito crear en cuenta de ahorros?
+    
 
-    public Cliente(String nombre, String documento, String email, String telefono, CuentaAhorros cuenta,
-            TarjetaCredito tarjeta, boolean activo) {
+
+    public Cliente(String nombre, String documento, String email, String telefono, double saldo) {
 
         this.id = UUID.randomUUID();
         this.fechaRegistro = LocalDate.now();
+       
+ // ESTABA EN CUENTA DE AHORROS
+        
+
+        // datos solicitados en el DTO
         this.nombre = nombre;
         this.documento = documento;
         this.email = email;
         this.telefono = telefono;
-        this.cuenta = cuenta;
-        this.tarjeta = tarjeta;
-        this.activo = activo;
+        this.saldo = saldo; // esta variable la agregue por flujo, es necesario crearla acá o sólo en el DTO? debe estar en la lista de clientes?
+        
+        this.activo = activo; // cómo se usa esta varaiable, al hacer pruebas en POSTMAN dice que esta inactivo el cliente
+        
+        
     }
 
 
