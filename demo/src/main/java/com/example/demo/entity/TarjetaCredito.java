@@ -26,14 +26,12 @@ public class TarjetaCredito {
     private boolean activa;
 
 
-    public TarjetaCredito(String numeroTarjeta, Cliente titular, double cupoTotal, double cupoDisponible,
-            double deudaActual, LocalDate fechaEmision, LocalDate fechaVencimiento, double pagoMinimoPorcentaje,
-            boolean activa) {
+    public TarjetaCredito(String numeroTarjeta, Cliente titular, double cupoTotal, double cupoDisponible, double deudaActual, LocalDate fechaEmision, LocalDate fechaVencimiento, double pagoMinimoPorcentaje, boolean activa) {
 
 
         this.id = UUID.randomUUID();
         this.fechaEmision = LocalDate.now();  
-        this.fechaVencimiento = fechaVencimiento.plusYears(3); 
+        this.fechaVencimiento = fechaVencimiento.plusYears(4); 
         this.numeroTarjeta = "TDC-" + id.toString().replaceAll("[^\\d]", "").substring(0, 10);
         this.titular = titular;
         this.cupoTotal = cupoTotal;
