@@ -2,6 +2,8 @@ package com.example.demo.dto;
 
 import com.example.demo.entity.Cliente;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,11 +14,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TarjetaCreditoDto {
-    @NotBlank(message = "El número de tarjeta es obligatorio")
-    private String numeroTarjeta;
+  
+@NotNull(message = "El pago minimo es obligatorio")
+    private double pagoMinimoPorcentaje;
 
-    @NotNull(message = "El titular de la tarjeta no puede ser nulo")
-    private Cliente titular;
 
-    private double pagoMinimoPorcentaje; // validar si entra en el DTO
+@NotNull(message = "el cupo total es obligatorio")
+@Max(value = 5000000, message = "el cupo maximo es de $5.000.000")
+@Min(value= 500000, message = "el cupo minimo es de $500.000")
+    private double cupoTotal;
+  
+    
 }
+
