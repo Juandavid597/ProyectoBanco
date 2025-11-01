@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entity.Banco;
+
 import com.example.demo.entity.Cliente;
 import com.example.demo.helpers.ResponseHelper;
 
