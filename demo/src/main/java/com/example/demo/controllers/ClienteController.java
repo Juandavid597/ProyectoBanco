@@ -121,3 +121,17 @@ public class ClienteController {
     // }
 
 }
+
+
+// // En la clase Banco o clase principal
+// private List<Cliente> clientes = new ArrayList<>();
+
+// // Listas opcionales para búsquedas rápidas o reportes globales
+// private List<CuentaAhorros> todasLasCuentas = new ArrayList<>();
+// private List<CDT> todosLosCDTs = new ArrayList<>();
+// private List<TarjetaCredito> todasLasTarjetas = new ArrayList<>();
+
+// // Para búsquedas rápidas (opcional pero recomendado)
+// private Map<String, Cliente> clientesPorDocumento = new HashMap<>();
+// private Map<String, CuentaAhorros> cuentasPorNumero = new HashMap<>();
+// private Map<String, TarjetaCredito> tarjetasPorNumero = new HashMap<>();

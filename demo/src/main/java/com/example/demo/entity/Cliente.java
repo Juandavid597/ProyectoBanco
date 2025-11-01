@@ -20,7 +20,6 @@ public class Cliente {
     private String documento;
     private String email;
     private String telefono;
-    
     private double saldo;
     private List<CDT> cdts;
     private TarjetaCredito tarjeta; //cómo se usa está variable, viene de una lista o la clase de tarjeta?
@@ -34,8 +33,6 @@ public class Cliente {
 
         this.id = UUID.randomUUID();
         this.fechaRegistro = LocalDate.now();
-       
- // ESTABA EN CUENTA DE AHORROS
         
 
         // datos solicitados en el DTO
@@ -43,12 +40,17 @@ public class Cliente {
         this.documento = documento;
         this.email = email;
         this.telefono = telefono;
-        this.saldo = saldo; // esta variable la agregue por flujo, es necesario crearla acá o sólo en el DTO? debe estar en la lista de clientes?
+        
         
         this.activo = activo; // cómo se usa esta varaiable, al hacer pruebas en POSTMAN dice que esta inactivo el cliente
         
         
     }
+
+// CuentaAhorros cuenta - La cuenta del cliente (solo UNA)
+// List<CDT> cdts - Lista de CDTs del cliente
+// TarjetaCredito tarjeta - Tarjeta de crédito (puede ser null)
+
 
 
     
