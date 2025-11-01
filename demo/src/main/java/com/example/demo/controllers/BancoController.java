@@ -6,15 +6,20 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.ClienteDto;
 import com.example.demo.entity.Banco;
 import com.example.demo.entity.Cliente;
 import com.example.demo.helpers.ResponseHelper;
+
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -46,4 +51,5 @@ public class BancoController {
             return ResponseHelper.catchResponse(e);
         }
     }
+    
 }
