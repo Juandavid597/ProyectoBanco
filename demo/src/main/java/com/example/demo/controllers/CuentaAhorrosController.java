@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CuentaAhorrosController {
 
 
-    @RestController
-    @RequestMapping(/)
+    // @RestController
+    // @RequestMapping(/)
     
 }
