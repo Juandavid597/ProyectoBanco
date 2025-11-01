@@ -171,47 +171,6 @@ public class ClienteController {
     }
 
 
-    @PostMapping("crearCuenta")
-    public ResponseEntity<?> crearCuenta(){
-
-        try{
-
-        }
-
-        catch(Exception e){
-            return ResponseHelper.catchResponse(e);
-        }
-    }
-
-
-      @PostMapping("solicitarTarjeta")
-    public ResponseEntity<?> solicitarTarjeta(){
-
-        try{
-
-        }
-
-        catch(Exception e){
-            return ResponseHelper.catchResponse(e);
-        }
-    }
-
-
-      @PostMapping("crearCDT")
-    public ResponseEntity<?> crearCdt(){
-
-        try{
-
-        }
-
-        catch(Exception e){
-            return ResponseHelper.catchResponse(e);
-        }
-    }
-
-
-
-
 
 
 }
