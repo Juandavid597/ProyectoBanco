@@ -29,7 +29,7 @@ import jakarta.validation.Valid;
 
 public class ClienteController {
    
-    private static Banco instancia;
+    private final Banco fakeDb = Banco.getInstancia();
    
 
     @GetMapping("{id}") //buscar información de cuenta por numero de documento
@@ -37,7 +37,7 @@ public class ClienteController {
 
         try{
 
-            Cliente clientesFound = Banco.getInstancia().getClientes().stream().filter((item -> item.getId().equals(id))).findFirst().orElse(null);
+            Cliente clientesFound = fakeDb.getClientes().stream().filter((item -> item.getId().equals(id))).findFirst().orElse(null);
 
             if (clientesFound == null){
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encontro registro de cliente con el Id");
@@ -79,7 +79,7 @@ public class ClienteController {
     
             Cliente newClient = new Cliente(cliente.getNombre(),cliente.getDocumento(),cliente.getEmail(),cliente.getTelefono(),true);
 
-            Banco.getInstancia().getClientes().add(newClient);
+            fakeDb.getClientes().add(newClient);
 
             return ResponseHelper.response(HttpStatus.OK, true, newClient, "El cliente se creo exitosamente en el banco");
 
