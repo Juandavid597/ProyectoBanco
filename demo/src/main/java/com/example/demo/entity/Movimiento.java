@@ -24,8 +24,7 @@ public class Movimiento {
     private String cuentaRelacionada;
 
 
-    public Movimiento(String tipo, double monto, double saldoAntes, double saldoDespues, String descripcion,
-            LocalDateTime fecha, String referencia, String cuentaRelacionada) {
+    public Movimiento(String tipo, double monto, double saldoAntes, double saldoDespues, String descripcion, LocalDateTime fecha, String referencia, String cuentaRelacionada) {
 
         this.id = UUID.randomUUID();      
         this.tipo = tipo;
