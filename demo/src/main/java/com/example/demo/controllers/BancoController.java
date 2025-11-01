@@ -26,7 +26,6 @@ import com.example.demo.helpers.ResponseHelper;
 @RequestMapping("/banco")
 public class BancoController {
     List<Cliente> clientes = new ArrayList<>();
-    
 
     @GetMapping
     public ResponseEntity<?> listarClientes() {
