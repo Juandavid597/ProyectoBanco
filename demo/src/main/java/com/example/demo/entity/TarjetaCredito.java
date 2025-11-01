@@ -33,8 +33,8 @@ public class TarjetaCredito {
 
         this.id = UUID.randomUUID();
         this.fechaEmision = LocalDate.now();  
-        this.fechaVencimiento = fechaVencimiento.plusDays();    // validar el plazo para registrar
-        this.numeroTarjeta = numeroTarjeta;
+        this.fechaVencimiento = fechaVencimiento.plusDays();    // esto es fecha de corte tarjeta?
+        this.numeroTarjeta = generarNumeroTarjeta(); // revisar porqué me genera error - sugerido profesor
         this.titular = titular;
         this.cupoTotal = cupoTotal;
         this.cupoDisponible = cupoDisponible;

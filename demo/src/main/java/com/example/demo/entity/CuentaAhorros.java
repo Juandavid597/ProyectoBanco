@@ -13,13 +13,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CuentaAhorros {
     private UUID id;
-    private String numeroCuenta;
+    
     private Cliente propietario;
     private double saldo;
     private List<Movimiento> movimientos;
     private LocalDate fechaCreacion;
     private boolean activa;
     private String tipoCuenta;
+    private String numeroCuenta;
 
 
 
@@ -28,7 +29,9 @@ public class CuentaAhorros {
 
         this.id = UUID.randomUUID();
         this.fechaCreacion = LocalDate.now();
-        this.numeroCuenta = numeroCuenta;
+         this.numeroCuenta = "ACC-" + id.toString().replaceAll("[^\\d]", "").substring(0, 10);
+
+        
         this.propietario = propietario;
         this.saldo = saldo;
         this.activa = activa;
