@@ -34,6 +34,6 @@ public class CdtDto {
     @NotNull(message = "La fecha de vencimiento es obligatorio")
     @Future(message = "La fecha debe ser futura")
     @Min(value = 90, message = "Deber ser minimo 90 dias")
-    @Max(value = 365, message = "Deber ser máximo 90 dias")
+    @Max(value = 365, message = "Deber ser máximo 365 dias")
     private LocalDate fechaVencimiento;
 }
