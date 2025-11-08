@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CdtDto {
+public class simularCdtDto {
 
     @NotNull(message = "La cuenta asociada no puede ser nula")
     private CuentaAhorros cuentaAsociada;

@@ -1,15 +1,15 @@
 package com.example.demo.entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class CuentaAhorros {
     
@@ -30,7 +30,8 @@ public class CuentaAhorros {
         this.id = UUID.randomUUID();
         this.fechaCreacion = LocalDate.now();
         this.numeroCuenta = "ACC-" + id.toString().replaceAll("[^\\d]", "").substring(0, 10);
-
+        this.movimientos = new ArrayList<>();
+        
         this.propietario = propietario;
         this.saldo = saldo;
         this.activa = activa;

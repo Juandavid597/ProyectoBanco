@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 
 public class Cliente {
@@ -22,7 +21,7 @@ public class Cliente {
     private String documento;
     private String email;
     private String telefono;
-    private List<CDT> cdts;
+    private List<CDT> cdtsCliente;
     private TarjetaCredito tarjeta;
     private CuentaAhorros cuenta; 
     private boolean activo;
@@ -31,7 +30,7 @@ public class Cliente {
 
         this.id = UUID.randomUUID();
         this.fechaRegistro = LocalDate.now();
-        this.cdts = new ArrayList<>();
+        this.cdtsCliente = new ArrayList<>();
         
         this.nombre = nombre;
         this.documento = documento;

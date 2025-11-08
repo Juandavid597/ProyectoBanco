@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +42,10 @@ public class Banco {
         this.nombre = nombre;
         this.totalGananciasCDT = totalGananciasCDT;
         this.totalDineroEnCuentas = totalDineroEnCuentas;
+        this.clientes = new ArrayList<Cliente>();
+        this.cdts = new ArrayList<CDT>();
+        this.tarjetas = new ArrayList<TarjetaCredito>();
+
     }
 
 
