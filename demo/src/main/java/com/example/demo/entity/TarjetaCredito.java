@@ -48,7 +48,8 @@ public class TarjetaCredito {
 
         this.id = UUID.randomUUID();
         this.fechaEmision = LocalDate.now();  
-        this.fechaVencimiento = fechaVencimiento.plusYears(3); 
+        // Asignar fecha de emisión y vencimiento (4 años) = OK
+        this.fechaVencimiento = fechaVencimiento.plusYears(4); 
         this.numeroTarjeta = generarNumeroTarjeta();
 
 
