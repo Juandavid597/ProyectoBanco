@@ -14,15 +14,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TarjetaCreditoDto {
+
+
+
   
 @NotNull(message = "El pago minimo es obligatorio")
     private double pagoMinimoPorcentaje;
 
 
+   // Solicitar cupo deseado (mínimo $500.000, máximo $5.000.000) = OK
+
 @NotNull(message = "el cupo total es obligatorio")
-@Max(value = 5000000, message = "el cupo maximo es de $5.000.000")
 @Min(value= 500000, message = "el cupo minimo es de $500.000")
+@Max(value = 5000000, message = "el cupo maximo es de $5.000.000")
     private double cupoTotal;
+
+@Min(value = 5, message = "El porcentaje debe ser 5%")
+@Max(value = 5, message = "El porcentaje debe ser 5%")
+private int porcentajePagoMinimo; 
+
+
+
   
     
 }

@@ -48,8 +48,4 @@ public class Banco {
         this.tarjetas = new ArrayList<TarjetaCredito>();
 
     }
-
-
-    
-
 }
