@@ -26,20 +26,46 @@ import com.example.demo.helpers.ResponseHelper;
 @RequestMapping("/banco")
 public class BancoController {
 
+    private final Banco fakeDb = Banco.getInstancia();
 
-    private static final double TASA_3_MESES = 0.05; // 5% EA
-    private static final double TASA_6_MESES = 0.055; // 5.5% EA
-    private static final double TASA_9_MESES = 0.058; // 5.8% EA
-    private static final double TASA_12_MESES = 0.06; // 6% EA
-    private static final double TASA_18_MESES = 0.065; // 6.5% EA
-    private static final double TASA_24_MESES = 0.07; // 7% EA
+    @GetMapping("/cliente")
+    public ResponseEntity<?> listarClientes() {
+        try {
+            return ResponseHelper.response(HttpStatus.OK, true, fakeDb.getClientes(), "Este metodo debe mostrar la lista de clientes");
+        } catch (Exception e) {
+            return ResponseHelper.catchResponse(e);
+        }
+    }
+
+    @GetMapping("/cuenta")
+    public ResponseEntity<?> listarCuentasDeAhorro(){
 
 
-   
+        try{
+            return ResponseHelper.response(HttpStatus.OK, true, fakeDb.getCuentas(), "Listado de todos los clientes creados en el banco");
 
+        }
+
+        catch(Exception e){
+            return ResponseHelper.catchResponse(e);
+        }
+
+    }
     
 
-   
-    
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscarCliente(@PathVariable String id) {
+        try {
+            Cliente clienteFound = fakeDb.getClientes().stream().filter(item->item.getId().equals(UUID.fromString(id))).findFirst().orElse(null);
+            if (clienteFound==null) {
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, 
+                "", "Cliente no encontrado");
+            }
+            return ResponseHelper.response(HttpStatus.OK, true, clienteFound, "Esta ruta muestra la información detallada del cliente");
+
+        } catch (Exception e) {
+            return ResponseHelper.catchResponse(e);
+        }
+    }
     
 }

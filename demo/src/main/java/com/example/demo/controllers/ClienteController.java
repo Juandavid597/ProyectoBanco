@@ -30,20 +30,22 @@ import jakarta.validation.Valid;
 public class ClienteController {
    
     private final Banco fakeDb = Banco.getInstancia();
+
+    
    
 
-    @GetMapping("{id}") //buscar información de cuenta por numero de documento
-    public ResponseEntity<?> ListarClientesId(@PathVariable UUID id){
+    @GetMapping("{documento}") //buscar información de cuenta por numero de documento
+    public ResponseEntity<?> ListarClientesDocumento(@PathVariable String  documento ){
 
         try{
 
-            Cliente clientesFound = fakeDb.getClientes().stream().filter((item -> item.getId().equals(id))).findFirst().orElse(null);
+            Cliente clientesFound = fakeDb.getClientes().stream().filter((item -> item.getDocumento().equals(documento))).findFirst().orElse(null);
 
             if (clientesFound == null){
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encontro registro de cliente con el Id");
             }
 
-            return ResponseHelper.response(HttpStatus.OK, true, clientesFound, "Cliente encontrado con ID");
+            return ResponseHelper.response(HttpStatus.OK, true, clientesFound, "Cliente encontrado con Documento");
 
         }
 
@@ -79,7 +81,7 @@ public class ClienteController {
     
             Cliente newClient = new Cliente(cliente.getNombre(),cliente.getDocumento(),cliente.getEmail(),cliente.getTelefono(),true);
 
-            fakeDb.getClientes().add(newClient);
+            Banco.getInstancia().getClientes().add(newClient);
 
             return ResponseHelper.response(HttpStatus.OK, true, newClient, "El cliente se creo exitosamente en el banco");
 
@@ -91,18 +93,18 @@ public class ClienteController {
     }
 
     
-    @PutMapping("{id}")
-    public ResponseEntity<?> actualizarCliente(@PathVariable UUID id, @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result){
+    @PutMapping("{docuemnto}")
+    public ResponseEntity<?> actualizarCliente(@PathVariable String documeto, @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result){
 
         if(result.hasErrors()){
             return ResponseHelper.validFields(result);
         }
 
         try{
-            Cliente clientefound = fakeDb.getClientes().stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
+            Cliente clientefound = fakeDb.getClientes().stream().filter(item -> item.getDocumento().equals(documento)).findFirst().orElse(null);
 
             if(clientefound == null){
-                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentran clientes con el id ingresado");
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentran clientes con el documento ingresado");
             }
 
 
@@ -134,18 +136,18 @@ public class ClienteController {
 
      }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarCliente(@PathVariable UUID id){
+    @DeleteMapping("/{documento}")
+    public ResponseEntity<?> eliminarCliente(@PathVariable String documento){
 
         try{
 
-            Cliente clienteFound = fakeDb.getClientes().stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
+            Cliente clienteFound = fakeDb.getClientes().stream().filter(item -> item.getDocumento().equals(documento)).findFirst().orElse(null);
 
             if(clienteFound == null){
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "Cliente no encontrado");
             }
 
-            Banco.getInstancia().getClientes().remove(clienteFound);
+            fakeDb.getClientes().remove(clienteFound);
             return ResponseHelper.response(HttpStatus.OK, true, clienteFound, "Cliente eliminado correctamente");
 
         }
