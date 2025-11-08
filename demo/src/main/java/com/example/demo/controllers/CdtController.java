@@ -37,6 +37,6 @@ public class CdtController {
             return ResponseHelper.response(HttpStatus.OK, true, simuladorCalculo, "");
         } catch (Exception e) {
             return ResponseHelper.catchResponse(e);
-        }
+        } 
     }
 }
