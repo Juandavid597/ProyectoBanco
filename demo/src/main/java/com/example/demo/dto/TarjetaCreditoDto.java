@@ -23,6 +23,11 @@ public class TarjetaCreditoDto {
 @Max(value = 5000000, message = "el cupo maximo es de $5.000.000")
 @Min(value= 500000, message = "el cupo minimo es de $500.000")
     private double cupoTotal;
+
+@Min(value = 5, message = "El porcentaje debe ser 5%")
+@Max(value = 5, message = "El porcentaje debe ser 5%")
+private int porcentajePagoMinimo; // revisar si se puede fijar desde la entidad
+
   
     
 }

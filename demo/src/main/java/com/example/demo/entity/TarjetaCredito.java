@@ -49,7 +49,6 @@ public class TarjetaCredito {
         this.id = UUID.randomUUID();
         this.fechaEmision = LocalDate.now();  
         this.fechaVencimiento = fechaVencimiento.plusYears(3); 
-        // this.numeroTarjeta = "TDC-" + id.toString().replaceAll("[^\\d]", "").substring(0, 10);
         this.numeroTarjeta = generarNumeroTarjeta();
 
 
