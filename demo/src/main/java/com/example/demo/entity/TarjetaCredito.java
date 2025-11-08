@@ -12,6 +12,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
+
+
+
+// Cliente titular - Cliente dueño de la tarjeta
+// double cupoTotal - Cupo total asignado
+// double cupoDisponible - Cupo disponible actual
+// double deudaActual - Deuda total pendiente
+// List<Compra> compras - Lista de compras realizadas
+// LocalDate fechaEmision - Fecha de emisión
+// boolean activa - Estado de la tarjeta
+// Métodos sugeridos:
+// realizarCompra(), pagar(), consultarEstado()
+// calcularPagoMinimo(), verificarCupo(), actualizarCupo()
+
+
 public class TarjetaCredito {
     private UUID id;
     private String numeroTarjeta;
@@ -28,11 +43,14 @@ public class TarjetaCredito {
 
     public TarjetaCredito(String numeroTarjeta, Cliente titular, double cupoTotal, double cupoDisponible, double deudaActual, LocalDate fechaEmision, LocalDate fechaVencimiento, double pagoMinimoPorcentaje, boolean activa) {
 
-
+        // UUID id - Identificador único
         this.id = UUID.randomUUID();
         this.fechaEmision = LocalDate.now();  
+
+        // Asignar fecha de emisión y vencimiento (4 años)
+        // LocalDate fechaVencimiento - Fecha de vencimiento (4 años después)
         this.fechaVencimiento = fechaVencimiento.plusYears(4); 
-        this.numeroTarjeta = "TDC-" + id.toString().replaceAll("[^\\d]", "").substring(0, 10);
+        
         this.titular = titular;
         this.cupoTotal = cupoTotal;
         this.cupoDisponible = cupoDisponible;
@@ -42,4 +60,7 @@ public class TarjetaCredito {
     }
 
     
+        // Generar número de tarjeta único
+        // String numeroTarjeta - Número de tarjeta (formato: 4532-XXXX-XXXX-XXXX)
+
 }
