@@ -42,7 +42,7 @@ public class Movimiento {
         //Pendiente verificar que funcione la referencia automatimaticamente
       public  String referenciaPago(){
 
-        return "PAY-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        return "PAY-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase(); 
 
     }
     
