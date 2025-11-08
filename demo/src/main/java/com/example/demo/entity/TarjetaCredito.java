@@ -78,6 +78,8 @@ public class TarjetaCredito {
         String bloque3 = uuidNumerico.substring(8, 12);
 
         return String.format("4532-%s-%s-%s", bloque1, bloque2, bloque3);
+
+        System.out.println();
     }
 
 
