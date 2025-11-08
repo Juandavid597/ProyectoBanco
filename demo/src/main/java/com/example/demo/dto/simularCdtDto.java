@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import com.example.demo.entity.CuentaAhorros;
 
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -18,9 +17,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class simularCdtDto {
-
-    @NotNull(message = "La cuenta asociada no puede ser nula")
-    private CuentaAhorros cuentaAsociada;
 
     @Positive(message = "El monto invertido debe ser mayor que cero")
     private double montoInvertido;
