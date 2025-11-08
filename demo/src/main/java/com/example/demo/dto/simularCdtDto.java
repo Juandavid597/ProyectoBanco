@@ -1,14 +1,7 @@
 package com.example.demo.dto;
 
-import java.time.LocalDate;
-
-import com.example.demo.entity.CuentaAhorros;
-
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,18 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SimularCdtDto {
 
-    @Positive(message = "El monto invertido debe ser mayor que cero")
+    @PositiveOrZero(message = "El monto invertido debe ser mayor que cero")
     private double montoInvertido;
 
-    @Min(value = 1, message = "El plazo debe ser al menos de 1 mes")
-    private int plazoMeses;
-
-    @Positive(message = "La tasa efectiva anual debe ser positiva")
-    private double tasaEfectivaAnual;
+    @Pattern(regexp = "3|6|9|12|24", message="El valor debe de ser 3,6,9,12 o 24")
+    private String plazoMeses;
     
-    @NotNull(message = "La fecha de vencimiento es obligatorio")
-    @Future(message = "La fecha debe ser futura")
-    @Min(value = 90, message = "Deber ser minimo 90 dias")
-    @Max(value = 365, message = "Deber ser máximo 365 dias")
-    private LocalDate fechaVencimiento;
 }

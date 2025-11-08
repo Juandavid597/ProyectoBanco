@@ -15,7 +15,7 @@ public class CDT {
     private UUID id;
     private CuentaAhorros cuentaAsociada;
     private double montoInvertido;
-    private int plazoMeses;
+    private String plazoMeses;
     private double tasaEfectivaAnual;
     private LocalDate fechaCreacion;
     private LocalDate fechaVencimiento;
@@ -27,13 +27,14 @@ public class CDT {
 
 
 
-    public CDT(CuentaAhorros cuentaAsociada, double montoInvertido, int plazoMeses, double tasaEfectivaAnual,
+    public CDT(CuentaAhorros cuentaAsociada, double montoInvertido, String plazoMeses, double tasaEfectivaAnual,
             LocalDate fechaVencimiento, double gananciaBruta, double retencion,
             double gananciaNeta, boolean activo, String estado) {
 
         this.id = UUID.randomUUID();   
         this.fechaCreacion = LocalDate.now();   
-        this.fechaVencimiento = fechaVencimiento.plusDays(plazoMeses); //revisar si funciona bien
+        this.fechaVencimiento = fechaVencimiento;
+        // .plusDays(plazoMeses); //revisar si funciona bien
         this.cuentaAsociada = cuentaAsociada;
         this.montoInvertido = montoInvertido;
         this.plazoMeses = plazoMeses;
