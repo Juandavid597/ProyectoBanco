@@ -16,6 +16,7 @@ import com.example.demo.helpers.ResponseHelper;
 
 import jakarta.validation.Valid;
 
+import com.example.demo.dto.CdtDto;
 import com.example.demo.dto.SimularCdtDto;
 
 @RestController
@@ -38,5 +39,17 @@ public class CdtController {
         } catch (Exception e) {
             return ResponseHelper.catchResponse(e);
         } 
+    }
+
+    @PostMapping("/nuevoCdt")
+    public ResponseEntity<?> crearCdt(@Valid @RequestBody CdtDto cdt, BindingResult result) {
+        if(result.hasErrors()){
+            return ResponseHelper.validFields(result); 
+        }
+        try {
+            
+        } catch (Exception e) {
+            return ResponseHelper.catchResponse(e);
+        }
     }
 }
