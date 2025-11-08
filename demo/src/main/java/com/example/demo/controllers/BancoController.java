@@ -25,21 +25,38 @@ import com.example.demo.helpers.ResponseHelper;
 @CrossOrigin(origins = "*")
 @RequestMapping("/banco")
 public class BancoController {
-    List<Cliente> clientes = new ArrayList<>();
 
-    @GetMapping
+    private final Banco fakeDb = Banco.getInstancia();
+
+    @GetMapping("/cliente")
     public ResponseEntity<?> listarClientes() {
         try {
-            return ResponseHelper.response(HttpStatus.OK, true, clientes, "Este metodo debe mostrar la lista de clientes");
+            return ResponseHelper.response(HttpStatus.OK, true, fakeDb.getClientes(), "Este metodo debe mostrar la lista de clientes");
         } catch (Exception e) {
             return ResponseHelper.catchResponse(e);
         }
     }
 
+    @GetMapping("/cuenta")
+    public ResponseEntity<?> listarCuentasDeAhorro(){
+
+
+        try{
+            return ResponseHelper.response(HttpStatus.OK, true, fakeDb.getCuentas(), "Listado de todos los clientes creados en el banco");
+
+        }
+
+        catch(Exception e){
+            return ResponseHelper.catchResponse(e);
+        }
+
+    }
+    
+
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarCliente(@PathVariable String id) {
         try {
-            Cliente clienteFound = clientes.stream().filter(item->item.getId().equals(UUID.fromString(id))).findFirst().orElse(null);
+            Cliente clienteFound = fakeDb.getClientes().stream().filter(item->item.getId().equals(UUID.fromString(id))).findFirst().orElse(null);
             if (clienteFound==null) {
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, 
                 "", "Cliente no encontrado");

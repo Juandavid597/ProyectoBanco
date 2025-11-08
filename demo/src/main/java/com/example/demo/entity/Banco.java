@@ -42,6 +42,7 @@ public class Banco {
         this.nombre = nombre;
         this.totalGananciasCDT = totalGananciasCDT;
         this.totalDineroEnCuentas = totalDineroEnCuentas;
+        this.cuentas = new ArrayList<CuentaAhorros>();
         this.clientes = new ArrayList<Cliente>();
         this.cdts = new ArrayList<CDT>();
         this.tarjetas = new ArrayList<TarjetaCredito>();

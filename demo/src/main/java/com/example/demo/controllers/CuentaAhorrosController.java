@@ -32,33 +32,19 @@ public class CuentaAhorrosController {
 
     private final Banco fakeDb = Banco.getInstancia();
 
-    @GetMapping
-    public ResponseEntity<?> listarClientes(){
-
-
-        try{
-            return ResponseHelper.response(HttpStatus.OK, true, fakeDb.getClientes(), "Listado de todos los clientes creados en el banco");
-
-        }
-
-        catch(Exception e){
-            return ResponseHelper.catchResponse(e);
-        }
-
-    }
 
     @GetMapping("{id}") //buscar información de cuenta por numero de documento
-    public ResponseEntity<?> ListarClientesDocumento(@PathVariable UUID id){
+    public ResponseEntity<?> ListarClientesDocumento(@PathVariable String documento){
 
         try{
 
-            Cliente clientesFound = fakeDb.getClientes().stream().filter((item -> item.getId().equals(id))).findFirst().orElse(null);
+            Cliente clientesFound = fakeDb.getClientes().stream().filter((item -> item.getDocumento().equals(documento))).findFirst().orElse(null);
 
             if (clientesFound == null){
-                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encontro registro de cliente con el Id");
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encontro registro de cliente con el Documento");
             }
 
-            return ResponseHelper.response(HttpStatus.OK, true, clientesFound, "Cliente encontrado con ID");
+            return ResponseHelper.response(HttpStatus.OK, true, clientesFound, "Cliente encontrado con Documento");
 
         }
 
@@ -106,7 +92,7 @@ public class CuentaAhorrosController {
     }
 
     
-    @PutMapping("{id}")
+    @PutMapping("{documento}")
     public ResponseEntity<?> actualizarCliente(@PathVariable UUID id, @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result){
 
         if(result.hasErrors()){
