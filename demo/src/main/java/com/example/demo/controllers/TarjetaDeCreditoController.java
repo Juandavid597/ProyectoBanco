@@ -63,7 +63,7 @@ public class TarjetaDeCreditoController {
 
         try{
 
-            Cliente clientesFound = fakeDb.getClientes().stream().filter((item -> item.getTarjeta().equals(numeroTarjeta))).findFirst().orElse(null);
+            Cliente clientesFound = fakeDb.getClientes().stream().filter((item -> item.g().equals(numeroTarjeta))).findFirst().orElse(null);
 
             if (clientesFound == null){
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encontro registro de cliente con el Id");
