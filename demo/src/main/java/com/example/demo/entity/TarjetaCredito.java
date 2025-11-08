@@ -79,7 +79,7 @@ public class TarjetaCredito {
 
         return String.format("4532-%s-%s-%s", bloque1, bloque2, bloque3);
 
-        System.out.println();
+        
     }
 
 
