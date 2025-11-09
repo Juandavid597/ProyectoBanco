@@ -17,7 +17,7 @@ public class Banco {
     private String nombre = "Banco Real de Antioquia";
     private List<Cliente> clientes;
     private List<CuentaAhorros> cuentas;
-    private List<CDT> cdts;
+    private List<Cdt> cdts;
     private List<TarjetaCredito> tarjetas;
     private double totalGananciasCDT;
     private double totalDineroEnCuentas;
@@ -52,7 +52,7 @@ public class Banco {
         this.totalDineroEnCuentas = totalDineroEnCuentas;
         this.cuentas = new ArrayList<CuentaAhorros>();
         this.clientes = new ArrayList<Cliente>();
-        this.cdts = new ArrayList<CDT>();
+        this.cdts = new ArrayList<Cdt>();
         this.tarjetas = new ArrayList<TarjetaCredito>();
 
     }
@@ -67,6 +67,8 @@ public class Banco {
                 return TASA_9_MESES;
             case "12":
                 return TASA_12_MESES;
+            case "18":
+                return TASA_24_MESES;
             case "24":
                 return TASA_24_MESES;
             default:
