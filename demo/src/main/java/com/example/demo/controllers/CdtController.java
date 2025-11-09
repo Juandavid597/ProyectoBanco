@@ -5,13 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Banco;
+import com.example.demo.entity.Cdt;
+import com.example.demo.entity.CuentaAhorros;
 import com.example.demo.helpers.ResponseHelper;
 
 import jakarta.validation.Valid;
@@ -42,11 +44,18 @@ public class CdtController {
     }
 
     @PostMapping("/nuevoCdt")
-    public ResponseEntity<?> crearCdt(@Valid @RequestBody CdtDto cdt, BindingResult result) {
+    public ResponseEntity<?> crearCdt(@PathVariable String numeroCuenta, @Valid @RequestBody CdtDto cdt, BindingResult result) {
         if(result.hasErrors()){
             return ResponseHelper.validFields(result); 
         }
         try {
+            CuentaAhorros cuentaFound=fakeDb.getCuentas().stream().filter(item->item.getNumeroCuenta().equals(numeroCuenta)).findFirst().orElse(null);
+            if (cuentaFound==null) {
+                return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "null", "No se encontro una cuenta asociada");
+            }
+            Cdt nuevoCDT = new Cdt(Cdt.getCuentaAsociada(), Cdt.getMontoInvertido(), Cdt.getPlazoMeses(), Cdt.getTasaEfectivaAnual(), Cdt.get);
+
+
             
         } catch (Exception e) {
             return ResponseHelper.catchResponse(e);

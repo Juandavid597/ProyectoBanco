@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class CDT {
+public class Cdt {
     private UUID id;
     private CuentaAhorros cuentaAsociada;
     private double montoInvertido;
@@ -27,7 +27,7 @@ public class CDT {
 
 
 
-    public CDT(CuentaAhorros cuentaAsociada, double montoInvertido, String plazoMeses, double tasaEfectivaAnual,
+    public Cdt(CuentaAhorros cuentaAsociada, double montoInvertido, String plazoMeses, double tasaEfectivaAnual,
             LocalDate fechaVencimiento, double gananciaBruta, double retencion,
             double gananciaNeta, boolean activo, String estado) {
 

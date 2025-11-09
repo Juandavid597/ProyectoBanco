@@ -14,7 +14,7 @@ public class SimularCdtDto {
     @PositiveOrZero(message = "El monto invertido debe ser mayor que cero")
     private double montoInvertido;
 
-    @Pattern(regexp = "3|6|9|12|24", message="El valor debe de ser 3,6,9,12 o 24")
+    @Pattern(regexp = "3|6|9|12|18|24", message="El valor debe de ser 3,6,9,12,18 o 24")
     private String plazoMeses;
     
 }
