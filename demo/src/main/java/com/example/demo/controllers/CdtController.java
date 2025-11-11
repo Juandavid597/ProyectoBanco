@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Banco;
 import com.example.demo.entity.CDT;
+import com.example.demo.entity.Cdt;
 import com.example.demo.entity.CDT;
 import com.example.demo.entity.CuentaAhorros;
 import com.example.demo.helpers.ResponseHelper;
@@ -44,22 +45,34 @@ public class CdtController {
         } 
     }
 
-    @PostMapping("/nuevoCdt")
+    @PostMapping("/{numeroCuenta}")
     public ResponseEntity<?> crearCdt(@PathVariable String numeroCuenta, @Valid @RequestBody CdtDto cdt, BindingResult result) {
         if(result.hasErrors()){
             return ResponseHelper.validFields(result); 
         }
+
         try {
-            CuentaAhorros cuentaFound=fakeDb.getCuentas().stream().filter(item->item.getNumeroCuenta().equals(numeroCuenta)).findFirst().orElse(null);
-            if (cuentaFound==null) {
-                return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "null", "No se encontro una cuenta asociada");
+            Boolean cuentaFound=fakeDb.getClientes().stream().anyMatch(item->item.getCuenta().equals(cdt.getCuentaAsociada()));
+            if (cuentaFound) {
+
+                double gananciaBruta = cdt.getMontoInvertido() * fakeDb.obtenerTasaCdt(cdt.getPlazoMeses());
+
+                double retencion = gananciaBruta * 0.04;
+
+                double gananciaNeta = gananciaBruta - retencion;
+
+                double totalRecibir =  cdt.getMontoInvertido() + gananciaNeta;
+
+                CDT nuevoCdt = new CDT(cdt.getCuentaAsociada(), cdt.getMontoInvertido(), cdt.getPlazoMeses(), cdt.getTasaEfectivaAnual(), cdt.getFechaVencimiento(), gananciaBruta, retencion, gananciaNeta, true,"Activo" );
+
+                return ResponseHelper.response(HttpStatus.OK, true, nuevoCdt, "Se muestra la cuenta asociada");
             }
-            CDT nuevoCDT = new CDT(CDT.getCuentaAsociada(), CDT.getMontoInvertido(), CDT.getPlazoMeses(), CDT.getTasaEfectivaAnual());
 
-
-            
+            return ResponseHelper.response(HttpStatus.BAD_REQUEST, true, "", "No se encontro la cuenta");
         } catch (Exception e) {
             return ResponseHelper.catchResponse(e);
         }
+
+
     }
 }
