@@ -17,7 +17,7 @@ public class Banco {
     private String nombre = "Banco Real de Antioquia";
     private List<Cliente> clientes;
     private List<CuentaAhorros> cuentas;
-    private List<Cdt> cdts;
+    private List<CDT> cdts;
     private List<TarjetaCredito> tarjetas;
     private double totalGananciasCDT;
     private double totalDineroEnCuentas;
@@ -52,7 +52,7 @@ public class Banco {
         this.totalDineroEnCuentas = totalDineroEnCuentas;
         this.cuentas = new ArrayList<CuentaAhorros>();
         this.clientes = new ArrayList<Cliente>();
-        this.cdts = new ArrayList<Cdt>();
+        this.cdts = new ArrayList<CDT>();
         this.tarjetas = new ArrayList<TarjetaCredito>();
 
     }

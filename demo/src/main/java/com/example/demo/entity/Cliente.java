@@ -21,7 +21,7 @@ public class Cliente {
     private String documento;
     private String email;
     private String telefono;
-    private List<Cdt> cdtsCliente;
+    private List<CDT> cdtsCliente;
     private TarjetaCredito tarjeta;
     private CuentaAhorros cuenta; 
     private boolean activo;
