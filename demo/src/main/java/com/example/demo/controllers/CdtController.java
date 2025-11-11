@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Banco;
-import com.example.demo.entity.Cdt;
+import com.example.demo.entity.CDT;
+import com.example.demo.entity.CDT;
 import com.example.demo.entity.CuentaAhorros;
 import com.example.demo.helpers.ResponseHelper;
 
@@ -53,7 +54,7 @@ public class CdtController {
             if (cuentaFound==null) {
                 return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "null", "No se encontro una cuenta asociada");
             }
-            Cdt nuevoCDT = new Cdt(Cdt.getCuentaAsociada(), Cdt.getMontoInvertido(), Cdt.getPlazoMeses(), Cdt.getTasaEfectivaAnual(), Cdt.get);
+            CDT nuevoCDT = new CDT(CDT.getCuentaAsociada(), CDT.getMontoInvertido(), CDT.getPlazoMeses(), CDT.getTasaEfectivaAnual());
 
 
             
