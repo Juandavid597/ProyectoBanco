@@ -43,7 +43,7 @@ public class CdtController {
         } 
     }
 
-    @PostMapping("/nuevoCdt")
+    @PostMapping("/{numeroCuenta}")
     public ResponseEntity<?> crearCdt(@PathVariable String numeroCuenta, @Valid @RequestBody CdtDto cdt, BindingResult result) {
         if(result.hasErrors()){
             return ResponseHelper.validFields(result); 
@@ -53,7 +53,11 @@ public class CdtController {
             if (cuentaFound==null) {
                 return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "null", "No se encontro una cuenta asociada");
             }
-            Cdt nuevoCDT = new Cdt(Cdt.getCuentaAsociada(), Cdt.getMontoInvertido(), Cdt.getPlazoMeses(), Cdt.getTasaEfectivaAnual(), Cdt.get);
+            if(cuentas(getSaldo) < CdtDto.getMontoInvertido()){
+                return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "null", "No hay saldo suficiente");
+            }
+
+            Cdt nuevoCDT = new Cdt(cdts.getCuentaAsociada(), cdts.getMontoInvertido(), cdts.getPlazoMeses(), cdts.getTasaEfectivaAnual(), cdts.getFechaAnual());
 
 
             
