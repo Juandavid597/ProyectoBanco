@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Banco;
-import com.example.demo.entity.Cdt;
+import com.example.demo.entity.CDT;
+import com.example.demo.entity.CDT;
 import com.example.demo.entity.CuentaAhorros;
 import com.example.demo.helpers.ResponseHelper;
 
