@@ -26,7 +26,7 @@ public class CdtDto {
     private double montoInvertido;
 
     @Min(value = 1, message = "El plazo debe ser al menos de 1 mes")
-    private int plazoMeses;
+    private String plazoMeses;
 
     @Positive(message = "La tasa efectiva anual debe ser positiva")
     private double tasaEfectivaAnual;
