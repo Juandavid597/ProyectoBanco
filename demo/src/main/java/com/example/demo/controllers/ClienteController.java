@@ -89,7 +89,7 @@ public class ClienteController {
     }
 
     
-    @PutMapping("{docuemnto}")
+    @PutMapping("{documento}")
     public ResponseEntity<?> actualizarCliente(@PathVariable String documento, @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result){
 
         if(result.hasErrors()){
