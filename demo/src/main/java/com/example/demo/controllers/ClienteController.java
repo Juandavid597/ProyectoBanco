@@ -57,11 +57,7 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<?> crearCliente(@Valid @RequestBody ClienteDto cliente, BindingResult result){
-// Validar que el documento no esté registrado
-// Solicitar saldo inicial (mínimo $10.000) = OK
-// Generar número de cuenta único (puede usar UUID o formato numérico) = OK -> se segiere en la clase cuenta de ahorros, pero para el metodo lo solicita el flujo, revisar con PROFESOR
-// Asignar fecha de creación = OK
-// Guardar cliente y cuenta en las estructuras de datos = se guarda correctamente en lista clientes. Se debe guardar cuenta en lista cuenta ahorros?
+
 
 
         if (result.hasErrors()){

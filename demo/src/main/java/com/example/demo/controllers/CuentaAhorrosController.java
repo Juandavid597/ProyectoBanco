@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -35,35 +37,33 @@ public class CuentaAhorrosController {
     private final Banco fakeDb = Banco.getInstancia();
 
 
-    // @GetMapping("{id}") //buscar información de cuenta por numero de documento
-    // public ResponseEntity<?> ListarClientesDocumento(@PathVariable String documento){
+    @GetMapping("{documento}") //buscar información de cuenta por numero de documento
+    public ResponseEntity<?> consultarCuentaDocumento(@PathVariable String documento){
 
-    //     try{
+        try{
 
-    //         Cliente clientesFound = fakeDb.getClientes().stream().filter((item -> item.getDocumento().equals(documento))).findFirst().orElse(null);
+            Cliente clienteFound = fakeDb.getClientes().stream().filter((item -> item.getDocumento().equals(documento))).findFirst().orElse(null);
 
-    //         if (clientesFound == null){
-    //             return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encontro registro de cliente con el Documento");
-    //         }
+            if (clienteFound == null){
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encontro registro de cliente con el Documento");
+            }
 
-    //         return ResponseHelper.response(HttpStatus.OK, true, clientesFound, "Cliente encontrado con Documento");
+            if (clienteFound.getCuenta() == null) {
+                return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "No existe una cuenta de ahorros asociada al Documento ingresado");
+            }
 
-    //     }
+            return ResponseHelper.response(HttpStatus.OK, true, clienteFound.getCuenta(), "Información de cuenta de ahorros encontrada");
 
-    //     catch (Exception e){
-    //         return ResponseHelper.catchResponse(e);
-    //     }
-    // }
+        }
+
+        catch (Exception e){
+            return ResponseHelper.catchResponse(e);
+        }
+    }
 
 
     @PostMapping("/{documento}")
     public ResponseEntity<?> crearCuenta(@PathVariable String documento,@Valid @RequestBody CuentaDeAhorroDto cuentaAhorros, BindingResult result){
-// Validar que el documento no esté registrado
-// Solicitar saldo inicial (mínimo $10.000) = OK
-// Generar número de cuenta único (puede usar UUID o formato numérico) = OK -> se segiere en la clase cuenta de ahorros, pero para el metodo lo solicita el flujo, revisar con PROFESOR
-// Asignar fecha de creación = OK
-// Guardar cliente y cuenta en las estructuras de datos = se guarda correctamente en lista clientes. Se debe guardar cuenta en lista cuenta ahorros?
-
 
         if (result.hasErrors()){
             return ResponseHelper.validFields(result);
@@ -85,7 +85,7 @@ public class CuentaAhorrosController {
                 return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "El cliente el cual has buscado ya tiene una cuenta creada");
             }
     
-            //Si el cliente no tiene una cuenta procedemos a crear la rspectiva cuenta.
+            //Si el cliente no tiene una cuenta procedemos a crear la respectiva cuenta.
 
             CuentaAhorros newCuenta= new CuentaAhorros(clienteFound.getNombre(), clienteFound.getDocumento(), cuentaAhorros.getSaldo(), cuentaAhorros.getTipoCuenta(), true);
 
@@ -104,17 +104,17 @@ public class CuentaAhorrosController {
 
     
     @PutMapping("{documento}")
-    public ResponseEntity<?> actualizarCliente(@PathVariable UUID id, @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result){
+    public ResponseEntity<?> actualizarCliente(@PathVariable UUID documento, @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result){
 
         if(result.hasErrors()){
             return ResponseHelper.validFields(result);
         }
 
         try{
-            Cliente clientefound = fakeDb.getClientes().stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
+            Cliente clienteFound = fakeDb.getClientes().stream().filter(item->item.getDocumento().equals(documento)).findFirst().orElse(null);
 
-            if(clientefound == null){
-                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentran clientes con el id ingresado");
+            if(clienteFound == null){
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentran clientes con el documento ingresado ingresado");
             }
 
 
@@ -146,7 +146,7 @@ public class CuentaAhorrosController {
 
      }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{documento}")
     public ResponseEntity<?> eliminarCliente(@PathVariable UUID id){
 
         try{
@@ -157,8 +157,12 @@ public class CuentaAhorrosController {
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "Cliente no encontrado");
             }
 
-            fakeDb.getClientes().remove(clienteFound);
-            return ResponseHelper.response(HttpStatus.OK, true, clienteFound, "Cliente eliminado correctamente");
+            if (clienteFound.getCuenta() == null) {
+                return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "No existe una cuenta de ahorros asociada al Documento ingresado");
+            }
+
+            fakeDb.getCuentas().remove(clienteFound.getCuenta());
+            return ResponseHelper.response(HttpStatus.OK, true, clienteFound, "Cuenta de ahorros eliminada correctamente");
 
         }
 

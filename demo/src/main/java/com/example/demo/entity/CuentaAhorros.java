@@ -25,7 +25,7 @@ public class CuentaAhorros {
 
 
 
-    public CuentaAhorros(String nombrePropietario, String documentoPropietario, double saldo,String tipoCuenta, boolean activa) {
+    public CuentaAhorros(String nombrePropietario, String documentoPropietario, double saldo, String tipoCuenta, boolean activa) {
 
         this.id = UUID.randomUUID();
         this.fechaCreacion = LocalDate.now();
