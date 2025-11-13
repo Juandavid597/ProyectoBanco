@@ -60,14 +60,16 @@ public class CdtController {
 
                 double totalRecibir =  cdt.getMontoInvertido() + gananciaNeta;
 
-                CDT nuevoCdt = new CDT(cdt.getCuentaAsociada(), cdt.getMontoInvertido(), cdt.getPlazoMeses(), cdt.getTasaEfectivaAnual(), cdt.getFechaVencimiento(), gananciaBruta, retencion, gananciaNeta, true,"Activo" );
+                // double tasaEfectivaAnual = fakeDb.obtenerTasaCdt(cdt.getPlazoMeses());
+
+                CDT nuevoCdt = new CDT(cdt.getCuentaAsociada(), cdt.getMontoInvertido(), cdt.getPlazoMeses(), fakeDb.obtenerTasaCdt(cdt.getPlazoMeses()), cdt.getFechaVencimiento(), gananciaBruta, retencion, gananciaNeta, true,"Activo" );
 
                 return ResponseHelper.response(HttpStatus.OK, true, nuevoCdt, "Se muestra la cuenta asociada");
             }
 
             return ResponseHelper.response(HttpStatus.BAD_REQUEST, true, "", "No se encontro la cuenta");
         } catch (Exception e) {
-            return ResponseHelper.catchResponse(e);
+            return ResponseHelper.catchResponse(e); 
         }
 
 
