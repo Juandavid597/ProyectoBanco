@@ -26,9 +26,7 @@ public class CDT {
     private String estado;
 
 
-    public CDT(CuentaAhorros cuentaAsociada, double montoInvertido, String plazoMeses,
-            LocalDate fechaVencimiento, double gananciaBruta, double retencion,
-            double gananciaNeta, boolean activo, String estado) {
+    public CDT(CuentaAhorros cuentaAsociada, double montoInvertido, String plazoMeses, double tasaEfectivaAnual, LocalDate fechaVencimiento, double gananciaBruta, double retencion, double gananciaNeta, boolean activo, String estado) {
 
         this.id = UUID.randomUUID();   
         this.fechaCreacion = LocalDate.now();   

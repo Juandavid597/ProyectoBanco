@@ -27,8 +27,8 @@ public class CdtDto {
     @Min(value = 1, message = "El plazo debe ser al menos de 1 mes")
     private String plazoMeses;
 
-    @Positive(message = "La tasa efectiva anual debe ser positiva")
-    private double tasaEfectivaAnual;
+    // @Positive(message = "La tasa efectiva anual debe ser positiva")
+    // private double tasaEfectivaAnual;
     
     @NotNull(message = "La fecha de vencimiento es obligatorio")
     @Future(message = "La fecha debe ser futura")
