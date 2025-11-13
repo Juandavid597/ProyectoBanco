@@ -85,7 +85,7 @@ public class CuentaAhorrosController {
                 return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "El cliente el cual has buscado ya tiene una cuenta creada");
             }
     
-            //Si el cliente no tiene una cuenta procedemos a crear la rspectiva cuenta.
+            //Si el cliente no tiene una cuenta procedemos a crear la respectiva cuenta.
 
             CuentaAhorros newCuenta= new CuentaAhorros(clienteFound.getNombre(), clienteFound.getDocumento(), cuentaAhorros.getSaldo(), cuentaAhorros.getTipoCuenta(), true);
 
