@@ -53,19 +53,5 @@ public class BancoController {
     }
     
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> buscarCliente(@PathVariable String id) {
-        try {
-            Cliente clienteFound = fakeDb.getClientes().stream().filter(item->item.getId().equals(UUID.fromString(id))).findFirst().orElse(null);
-            if (clienteFound==null) {
-                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, 
-                "", "Cliente no encontrado");
-            }
-            return ResponseHelper.response(HttpStatus.OK, true, clienteFound, "Esta ruta muestra la información detallada del cliente");
-
-        } catch (Exception e) {
-            return ResponseHelper.catchResponse(e);
-        }
-    }
     
 }
