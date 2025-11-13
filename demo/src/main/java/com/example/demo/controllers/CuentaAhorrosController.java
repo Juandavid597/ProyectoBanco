@@ -102,49 +102,6 @@ public class CuentaAhorrosController {
         }
     }
 
-    
-    @PutMapping("{documento}")
-    public ResponseEntity<?> actualizarCliente(@PathVariable UUID documento, @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result){
-
-        if(result.hasErrors()){
-            return ResponseHelper.validFields(result);
-        }
-
-        try{
-            Cliente clienteFound = fakeDb.getClientes().stream().filter(item->item.getDocumento().equals(documento)).findFirst().orElse(null);
-
-            if(clienteFound == null){
-                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentran clientes con el documento ingresado ingresado");
-            }
-
-
-            // ** validar si le van a cambiar el correo a el usuario
-            if (!clientefound.getDocumento().equals(actualizarCliente.getDocumento())){
-
-            //Validar numero de documento sea unico
-            Boolean existDocument = fakeDb.getClientes().stream().anyMatch(item -> item.getDocumento().equals(actualizarCliente.getDocumento()));
-
-            if(existDocument){
-                return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "Ya se encuentra un registro con el numero de documento");
-
-            }
-            }
-
-            clientefound.setNombre(actualizarCliente.getNombre());
-            clientefound.setDocumento(actualizarCliente.getDocumento());
-            clientefound.setEmail(actualizarCliente.getEmail());
-            clientefound.setTelefono(actualizarCliente.getTelefono());
-
-            return ResponseHelper.response(HttpStatus.OK, true, actualizarCliente, "Cliente actualizado correctamente");
-
-        }
-
-
-        catch (Exception e){
-            return ResponseHelper.catchResponse(e);
-        }
-
-     }
 
     @DeleteMapping("/{documento}")
     public ResponseEntity<?> eliminarCliente(@PathVariable UUID id){

@@ -68,7 +68,7 @@ public class Banco {
             case "12":
                 return TASA_12_MESES;
             case "18":
-                return TASA_24_MESES;
+                return TASA_18_MESES;
             case "24":
                 return TASA_24_MESES;
             default:
@@ -87,7 +87,7 @@ public class Banco {
             case "12":
                 return TASA_12_MESES;
             case "18":
-                return TASA_24_MESES;
+                return TASA_18_MESES;
             case "24":
                 return TASA_24_MESES;
             default:
