@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import com.example.demo.entity.CuentaAhorros;
 
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

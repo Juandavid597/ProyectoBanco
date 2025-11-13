@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Banco;
 import com.example.demo.entity.CDT;
-import com.example.demo.entity.Cdt;
-import com.example.demo.entity.CDT;
-import com.example.demo.entity.CuentaAhorros;
 import com.example.demo.helpers.ResponseHelper;
 
 import jakarta.validation.Valid;
@@ -39,7 +36,7 @@ public class CdtController {
         try {
                 double simuladorCalculo = simulador.getMontoInvertido()*fakeDb.obtenerTasaCdt(simulador.getPlazoMeses());
             
-            return ResponseHelper.response(HttpStatus.OK, true, simuladorCalculo, "");
+            return ResponseHelper.response(HttpStatus.OK, true, simuladorCalculo, "Este metodo muestra");
         } catch (Exception e) {
             return ResponseHelper.catchResponse(e);
         } 
