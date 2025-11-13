@@ -75,4 +75,23 @@ public class Banco {
                 return TASA_6_MESES;
         }
     }
+
+    public double asignarTasaEfectiva(String plazoMeses) {
+        switch (plazoMeses) {
+            case "3":
+                return TASA_3_MESES;
+            case "6":
+                return TASA_6_MESES;
+            case "9":
+                return TASA_9_MESES;
+            case "12":
+                return TASA_12_MESES;
+            case "18":
+                return TASA_24_MESES;
+            case "24":
+                return TASA_24_MESES;
+            default:
+                return TASA_6_MESES;
+        }
+    }
 }

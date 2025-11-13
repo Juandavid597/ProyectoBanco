@@ -26,7 +26,7 @@ public class CDT {
     private String estado;
 
 
-    public CDT(CuentaAhorros cuentaAsociada, double montoInvertido, String plazoMeses, double tasaEfectivaAnual,
+    public CDT(CuentaAhorros cuentaAsociada, double montoInvertido, String plazoMeses,
             LocalDate fechaVencimiento, double gananciaBruta, double retencion,
             double gananciaNeta, boolean activo, String estado) {
 
