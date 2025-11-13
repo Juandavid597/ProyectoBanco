@@ -69,7 +69,7 @@ public class CdtController {
 
             return ResponseHelper.response(HttpStatus.BAD_REQUEST, true, "", "No se encontro la cuenta");
         } catch (Exception e) {
-            return ResponseHelper.catchResponse(e);
+            return ResponseHelper.catchResponse(e); 
         }
 
 
