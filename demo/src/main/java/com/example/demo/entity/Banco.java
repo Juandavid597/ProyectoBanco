@@ -57,19 +57,19 @@ public class Banco {
 
     }
 
-    public double obtenerTasaCdt(String plazoMeses){
+    public double obtenerTasaCdt(int plazoMeses){
         switch (plazoMeses) {
-            case "3":
+            case 3:
                 return TASA_3_MESES;
-            case "6":
+            case 6:
                 return TASA_6_MESES;
-            case "9":
+            case 9:
                 return TASA_9_MESES;
-            case "12":
+            case 12:
                 return TASA_12_MESES;
-            case "18":
+            case 18:
                 return TASA_18_MESES;
-            case "24":
+            case 24:
                 return TASA_24_MESES;
             default:
                 return TASA_6_MESES;

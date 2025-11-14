@@ -15,6 +15,6 @@ public class SimularCdtDto {
     private double montoInvertido;
 
     @Pattern(regexp = "3|6|9|12|18|24", message="El valor debe de ser 3,6,9,12,18 o 24")
-    private String plazoMeses;
+    private int plazoMeses;
     
 }

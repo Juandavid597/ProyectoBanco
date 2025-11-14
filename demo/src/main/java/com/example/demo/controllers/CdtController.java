@@ -50,24 +50,23 @@ public class CdtController {
 
         try {
             Boolean cuentaFound=fakeDb.getClientes().stream().anyMatch(item->item.getCuenta().equals(cdt.getCuentaAsociada()));
-            if (cuentaFound) {
+            if (cuentaFound && cdt.getMontoInvertido() > 500000) {
 
-                double gananciaBruta = cdt.getMontoInvertido() * fakeDb.obtenerTasaCdt(cdt.getPlazoMeses());
+                double tasaCDT = 1+fakeDb.obtenerTasaCdt(cdt.getPlazoMeses());
+                double potenciaCDT = (cdt.getPlazoMeses()/12);
+                double tasaConvertida = Math.pow(tasaCDT,potenciaCDT);
 
+                double gananciaBruta = cdt.getMontoInvertido() * tasaConvertida;
                 double retencion = gananciaBruta * 0.04;
-
                 double gananciaNeta = gananciaBruta - retencion;
-
                 double totalRecibir =  cdt.getMontoInvertido() + gananciaNeta;
 
-                // double tasaEfectivaAnual = fakeDb.obtenerTasaCdt(cdt.getPlazoMeses());
-
-                CDT nuevoCdt = new CDT(cdt.getCuentaAsociada(), cdt.getMontoInvertido(), cdt.getPlazoMeses(), fakeDb.obtenerTasaCdt(cdt.getPlazoMeses()), cdt.getFechaVencimiento(), gananciaBruta, retencion, gananciaNeta, true,"Activo" );
+                CDT nuevoCdt = new CDT(cdt.getCuentaAsociada(), cdt.getMontoInvertido(), cdt.getPlazoMeses(), fakeDb.obtenerTasaCdt(cdt.getPlazoMeses()), cdt.getFechaVencimiento(), gananciaBruta, retencion, gananciaNeta, totalRecibir, true,"Activo" );
 
                 return ResponseHelper.response(HttpStatus.OK, true, nuevoCdt, "Se muestra la cuenta asociada");
             }
 
-            return ResponseHelper.response(HttpStatus.BAD_REQUEST, true, "", "No se encontro la cuenta");
+            return ResponseHelper.response(HttpStatus.BAD_REQUEST, true, "", "No se encontro la cuenta o el monto no es valido");
         } catch (Exception e) {
             return ResponseHelper.catchResponse(e); 
         }
