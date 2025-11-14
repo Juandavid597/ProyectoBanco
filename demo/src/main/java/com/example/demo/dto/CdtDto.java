@@ -25,14 +25,14 @@ public class CdtDto {
     private double montoInvertido;
 
     @Min(value = 1, message = "El plazo debe ser al menos de 1 mes")
-    private String plazoMeses;
+    private int plazoMeses;
 
-    @Positive(message = "La tasa efectiva anual debe ser positiva")
-    private double tasaEfectivaAnual;
+    // @Positive(message = "La tasa efectiva anual debe ser positiva")
+    // private double tasaEfectivaAnual;
     
     @NotNull(message = "La fecha de vencimiento es obligatorio")
     @Future(message = "La fecha debe ser futura")
     @Min(value = 90, message = "Deber ser minimo 90 dias")
     @Max(value = 365, message = "Deber ser máximo 365 dias")
-    private LocalDate fechaVencimiento;
+    private LocalDate fechaVencimiento; 
 }

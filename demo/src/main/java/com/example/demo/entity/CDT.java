@@ -15,7 +15,7 @@ public class CDT {
     private UUID id;
     private CuentaAhorros cuentaAsociada;
     private double montoInvertido;
-    private String plazoMeses;
+    private double plazoMeses;
     private double tasaEfectivaAnual;
     private LocalDate fechaCreacion;
     private LocalDate fechaVencimiento;
@@ -24,11 +24,10 @@ public class CDT {
     private double gananciaNeta;
     private boolean activo;
     private String estado;
+    private double totalRecibir;
 
 
-    public CDT(CuentaAhorros cuentaAsociada, double montoInvertido, String plazoMeses,
-            LocalDate fechaVencimiento, double gananciaBruta, double retencion,
-            double gananciaNeta, boolean activo, String estado) {
+    public CDT(CuentaAhorros cuentaAsociada, double montoInvertido, int plazoMeses, double tasaEfectivaAnual, LocalDate fechaVencimiento, double gananciaBruta, double retencion, double gananciaNeta,double totalRecibir, boolean activo, String estado) {
 
         this.id = UUID.randomUUID();   
         this.fechaCreacion = LocalDate.now();   
@@ -41,6 +40,7 @@ public class CDT {
         this.gananciaBruta = gananciaBruta;
         this.retencion = retencion;
         this.gananciaNeta = gananciaNeta;
+        this.totalRecibir = totalRecibir;
         this.activo = activo;
         this.estado = estado;
     }
