@@ -32,6 +32,7 @@ public class MovimientoController {
 
     @PostMapping("/{numeroCuenta}")
     public ResponseEntity<?> depositarDinero(@PathVariable String numeroCuenta, @Valid @RequestBody MovimientoDto MovimientoActualizar, BindingResult result){
+        
 
         if (result.hasErrors()){
             return ResponseHelper.validFields(result);
