@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class simularCdtDto {
+public class SimularCdtDto{
 
     @PositiveOrZero(message = "El monto invertido debe ser mayor que cero")
     private double montoInvertido;
