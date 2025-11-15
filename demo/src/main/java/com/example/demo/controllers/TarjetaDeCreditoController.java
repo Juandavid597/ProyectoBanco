@@ -46,7 +46,7 @@ public class TarjetaDeCreditoController {
     //Listar todas las tajetas de credito del banco
 
     @GetMapping 
-    public ResponseEntity<?> ListarClientes(){
+    public ResponseEntity<?> ListarTrajetasCredito(){
 
         try{
 
