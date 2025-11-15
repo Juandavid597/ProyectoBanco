@@ -28,15 +28,24 @@ public class CdtController {
 
     private final Banco fakeDb = Banco.getInstancia();
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<?> simularCdt(@Valid @RequestBody SimularCdtDto simulador, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseHelper.validFields(result);
         }
         try {
-                double simuladorCalculo = simulador.getMontoInvertido()*fakeDb.obtenerTasaCdt(simulador.getPlazoMeses());
+                double tasaCDT = fakeDb.obtenerTasaCdt(simulador.getPlazoMeses());
+                double potenciaCDT = (simulador.getPlazoMeses()/12.0);
+                double tasaConvertida = Math.pow((1+tasaCDT),potenciaCDT) - 1;
+                
+                double gananciaBruta = simulador.getMontoInvertido() * tasaConvertida;
+                double retencion = gananciaBruta * 0.04;
+                double gananciaNeta = gananciaBruta - retencion;
+                double totalRecibir =  simulador.getMontoInvertido() + gananciaNeta;
+
+                CDT simuladorCalculo = new CDT(null, simulador.getMontoInvertido(), simulador.getPlazoMeses(), fakeDb.obtenerTasaCdt(simulador.getPlazoMeses()), gananciaBruta, retencion, gananciaNeta, totalRecibir, true,"Activo" );
             
-            return ResponseHelper.response(HttpStatus.OK, true, simuladorCalculo, "Este metodo muestra");
+            return ResponseHelper.response(HttpStatus.OK, true, simuladorCalculo, "Este metodo muestra la simulación del cdt");
         } catch (Exception e) {
             return ResponseHelper.catchResponse(e);
         } 
@@ -52,16 +61,16 @@ public class CdtController {
             Boolean cuentaFound=fakeDb.getClientes().stream().anyMatch(item->item.getCuenta().equals(cdt.getCuentaAsociada()));
             if (cuentaFound && cdt.getMontoInvertido() > 500000) {
 
-                double tasaCDT = 1+fakeDb.obtenerTasaCdt(cdt.getPlazoMeses());
+                double tasaCDT = fakeDb.obtenerTasaCdt(cdt.getPlazoMeses());
                 double potenciaCDT = (cdt.getPlazoMeses()/12);
-                double tasaConvertida = Math.pow(tasaCDT,potenciaCDT);
+                double tasaConvertida = Math.pow((1+tasaCDT),potenciaCDT) - 1;
 
                 double gananciaBruta = cdt.getMontoInvertido() * tasaConvertida;
                 double retencion = gananciaBruta * 0.04;
                 double gananciaNeta = gananciaBruta - retencion;
                 double totalRecibir =  cdt.getMontoInvertido() + gananciaNeta;
 
-                CDT nuevoCdt = new CDT(cdt.getCuentaAsociada(), cdt.getMontoInvertido(), cdt.getPlazoMeses(), fakeDb.obtenerTasaCdt(cdt.getPlazoMeses()), cdt.getFechaVencimiento(), gananciaBruta, retencion, gananciaNeta, totalRecibir, true,"Activo" );
+                CDT nuevoCdt = new CDT(cdt.getCuentaAsociada(), cdt.getMontoInvertido(), cdt.getPlazoMeses(), fakeDb.obtenerTasaCdt(cdt.getPlazoMeses()), gananciaBruta, retencion, gananciaNeta, totalRecibir, true,"Activo" );
 
                 return ResponseHelper.response(HttpStatus.OK, true, nuevoCdt, "Se muestra la cuenta asociada");
             }
