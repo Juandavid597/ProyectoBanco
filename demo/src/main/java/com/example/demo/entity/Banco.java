@@ -23,12 +23,12 @@ public class Banco {
     private double totalDineroEnCuentas;
 
     // Configuración de tasas de interés para CDT según plazo
-    private static final double TASA_3_MESES = 0.05; // 5% EA
-    private static final double TASA_6_MESES = 0.055; // 5.5% EA
-    private static final double TASA_9_MESES = 0.058; // 5.8% EA
-    private static final double TASA_12_MESES = 0.06; // 6% EA
-    private static final double TASA_18_MESES = 0.065; // 6.5% EA
-    private static final double TASA_24_MESES = 0.07; // 7% EA
+    static final double TASA_3_MESES = 0.05; // 5% EA
+    static final double TASA_6_MESES = 0.055; // 5.5% EA
+    static final double TASA_9_MESES = 0.058; // 5.8% EA
+    static final double TASA_12_MESES = 0.06; // 6% EA
+    static final double TASA_18_MESES = 0.065; // 6.5% EA
+    static final double TASA_24_MESES = 0.07; // 7% EA
 
 
     private Banco(){
@@ -67,10 +67,13 @@ public class Banco {
                 return TASA_9_MESES;
             case 12:
                 return TASA_12_MESES;
+            case 18:
+                return TASA_18_MESES;
             case 24:
                 return TASA_24_MESES;
             default:
                 return TASA_6_MESES;
         }
     }
+
 }

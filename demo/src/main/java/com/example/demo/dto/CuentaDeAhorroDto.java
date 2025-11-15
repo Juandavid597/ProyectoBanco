@@ -25,6 +25,6 @@ public class CuentaDeAhorroDto {
 
 
     @NotBlank(message = "El tipo de cuenta es obligatorio")
-    @Pattern(regexp = "ahorro|corriente", flags = Pattern.Flag.CASE_INSENSITIVE, message = "El tipo de cuenta debe ser 'ahorro' o 'corriente'")
+    @Pattern(regexp = "ahorros|corriente", flags = Pattern.Flag.CASE_INSENSITIVE, message = "El tipo de cuenta debe ser 'ahorro' o 'corriente'")
     private String tipoCuenta;
 }

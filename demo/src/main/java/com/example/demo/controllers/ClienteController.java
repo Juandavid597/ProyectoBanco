@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,11 +56,7 @@ public class ClienteController {
 
     @PostMapping
     public ResponseEntity<?> crearCliente(@Valid @RequestBody ClienteDto cliente, BindingResult result){
-// Validar que el documento no esté registrado
-// Solicitar saldo inicial (mínimo $10.000) = OK
-// Generar número de cuenta único (puede usar UUID o formato numérico) = OK -> se segiere en la clase cuenta de ahorros, pero para el metodo lo solicita el flujo, revisar con PROFESOR
-// Asignar fecha de creación = OK
-// Guardar cliente y cuenta en las estructuras de datos = se guarda correctamente en lista clientes. Se debe guardar cuenta en lista cuenta ahorros?
+
 
 
         if (result.hasErrors()){
@@ -70,7 +65,7 @@ public class ClienteController {
 
         try{
 
-            //Validar numero de docuemnto sea unico
+            //Validar numero de documento sea unico
             Boolean existDocument = fakeDb.getClientes().stream().anyMatch(item -> item.getDocumento().equals(cliente.getDocumento()));
 
             if(existDocument){
@@ -93,8 +88,8 @@ public class ClienteController {
     }
 
     
-    @PutMapping("{docuemnto}")
-    public ResponseEntity<?> actualizarCliente(@PathVariable String documeto, @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result){
+    @PutMapping("{documento}")
+    public ResponseEntity<?> actualizarCliente(@PathVariable String documento, @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result){
 
         if(result.hasErrors()){
             return ResponseHelper.validFields(result);
