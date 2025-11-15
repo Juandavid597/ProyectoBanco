@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class MovimientoDto {
     
     @NotBlank(message = "El tipo de movimiento es obligatorio (por ejemplo, 'Deposito' o 'Retiro')")
-    @Pattern(regexp = "deposito|retiro|transferencia", flags = Pattern.Flag.CASE_INSENSITIVE, message = "El tipo de cuenta debe ser 'ahorro' o 'corriente'")
+    @Pattern(regexp = "deposito|retiro", flags = Pattern.Flag.CASE_INSENSITIVE, message = "El tipo de cuenta debe ser 'ahorro' o 'corriente'")
     private String tipo;
 
     @Positive(message = "El monto del movimiento debe ser mayor que cero")
