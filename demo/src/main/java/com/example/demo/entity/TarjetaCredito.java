@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 // double cupoDisponible - Cupo disponible actual
 // double deudaActual - Deuda total pendiente
 // List<Compra> compras - Lista de compras realizadas
-
 // boolean activa - Estado de la tarjeta
 
 @Data
@@ -37,13 +36,13 @@ public class TarjetaCredito {
     private boolean activa;
 
 
-    public TarjetaCredito(String numeroTarjeta, Cliente titular, double cupoTotal, double cupoDisponible, double deudaActual, LocalDate fechaEmision, LocalDate fechaVencimiento, double pagoMinimoPorcentaje, boolean activa) {
+    public TarjetaCredito(Cliente titular, double cupoTotal, double cupoDisponible, double deudaActual, double pagoMinimoPorcentaje, boolean activa) {
 
         // UUID id - Identificador único
         this.id = UUID.randomUUID();
         // LocalDate fechaEmision - Fecha de emisión
         this.fechaEmision = LocalDate.now();  
-        this.fechaVencimiento = fechaVencimiento.plusYears(4); 
+        this.fechaVencimiento = fechaEmision.plusYears(4); 
         this.numeroTarjeta   = generarNumeroTarjeta();
 
         this.titular = titular;
