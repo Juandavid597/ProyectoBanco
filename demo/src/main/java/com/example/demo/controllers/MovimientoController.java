@@ -73,10 +73,10 @@ public class MovimientoController {
 
 
 
-    //método para depositar dinero
+    //método para retirar o depositar dinero dependiendo de parametro
 
-    @PostMapping("/deposito/{numeroCuenta}")
-    public ResponseEntity<?> depositarDinero(@PathVariable String numeroCuenta, @Valid @RequestBody MovimientoDto MovimientoActualizar, BindingResult result){
+    @PostMapping("/{numeroCuenta}")
+    public ResponseEntity<?> depositarDinero(@PathVariable String numeroCuenta, @Valid @RequestBody MovimientoDto movimientoActualizar, BindingResult result){
         
 
         if (result.hasErrors()){
@@ -93,67 +93,39 @@ public class MovimientoController {
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentra una cuenta asociada con el número de cuenta ingresada");
             }
 
-            
     
-            //Si el cliente no tiene una cuenta procedemos a crear la respectiva cuenta.
+            //Si la cuenta existe procedemos a hacer el movimiento dependiendo del tipo
 
-            Movimiento newDeposito= new Movimiento(MovimientoActualizar.getTipo(), MovimientoActualizar.getMonto(), cuentaFound.getSaldo(), MovimientoActualizar.getDescripcion(), cuentaFound.getNumeroCuenta());
-
-
-            newDeposito.setSaldoDespues(newDeposito.getSaldoAntes()+newDeposito.getMonto());
-            cuentaFound.setSaldo(newDeposito.getSaldoDespues());
-
-            cuentaFound.getMovimientos().add(newDeposito);
-
-            return ResponseHelper.response(HttpStatus.OK, true, newDeposito, "Se ha hecho el deposito correctamente");
-
-        }
-
-        catch (Exception e){
-            return ResponseHelper.catchResponse(e);
-        }
-    }
-
-
-
-    //Metodo para retirar dinero
-
-    @PostMapping("/retiro/{numeroCuenta}")
-    public ResponseEntity<?> retirarDinero(@PathVariable String numeroCuenta, @Valid @RequestBody MovimientoDto MovimientoActualizar, BindingResult result){
-        
-
-        if (result.hasErrors()){
-            return ResponseHelper.validFields(result);
-        }
-
-        try{
-
-            //Validar si existe la cuenta solicitada por numero de cuenta
             
-            CuentaAhorros cuentaFound = fakeDb.getCuentas().stream().filter(item->item.getNumeroCuenta().equals(numeroCuenta)).findFirst().orElse(null);
+            if ( movimientoActualizar.getTipo().equalsIgnoreCase("deposito" )) {
 
-            if (cuentaFound == null) {
-                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentra una cuenta asociada con el número de cuenta ingresada");
+                Movimiento newMovimiento= new Movimiento(movimientoActualizar.getTipo(), movimientoActualizar.getMonto(), cuentaFound.getSaldo(), cuentaFound.getNumeroCuenta());
+
+                newMovimiento.setDescripcion("Deposito de dinero en cuenta Bancaria");
+
+                newMovimiento.setSaldoDespues(newMovimiento.getSaldoAntes()+newMovimiento.getMonto());
+                cuentaFound.setSaldo(newMovimiento.getSaldoDespues());
+
+                cuentaFound.getMovimientos().add(newMovimiento);
+
+                return ResponseHelper.response(HttpStatus.OK, true, newMovimiento, "Se ha hecho el deposito correctamente");
+
             }
 
-
-
-            if (MovimientoActualizar.getMonto()>cuentaFound.getSaldo()) {
+            if (movimientoActualizar.getMonto()>cuentaFound.getSaldo()) {
                 return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "El monto que usted desea retirar supera el valor disponible en su cuenta bancaria.");
             }
-            
-    
-            //Si el cliente no tiene una cuenta procedemos a crear la respectiva cuenta.
 
-            Movimiento newRetiro= new Movimiento(MovimientoActualizar.getTipo(), MovimientoActualizar.getMonto(), cuentaFound.getSaldo(), MovimientoActualizar.getDescripcion(), cuentaFound.getNumeroCuenta());
+            Movimiento newMovimiento= new Movimiento(movimientoActualizar.getTipo(), movimientoActualizar.getMonto(), cuentaFound.getSaldo(), cuentaFound.getNumeroCuenta());
 
+            newMovimiento.setDescripcion("Retiro de dinero en cuenta Bancaria");
 
-            newRetiro.setSaldoDespues(newRetiro.getSaldoAntes()-newRetiro.getMonto());
-            cuentaFound.setSaldo(newRetiro.getSaldoDespues());
+            newMovimiento.setSaldoDespues(newMovimiento.getSaldoAntes()-newMovimiento.getMonto());
+            cuentaFound.setSaldo(newMovimiento.getSaldoDespues());
 
-            cuentaFound.getMovimientos().add(newRetiro);
+            cuentaFound.getMovimientos().add(newMovimiento);
 
-            return ResponseHelper.response(HttpStatus.OK, true, newRetiro, "Se ha hecho el Retiro correctamente");
+            return ResponseHelper.response(HttpStatus.OK, true, newMovimiento, "Se ha hecho el Retiro correctamente");
 
         }
 
@@ -161,6 +133,10 @@ public class MovimientoController {
             return ResponseHelper.catchResponse(e);
         }
     }
+
+
+
+   
 
     //Método Para eliminar
 

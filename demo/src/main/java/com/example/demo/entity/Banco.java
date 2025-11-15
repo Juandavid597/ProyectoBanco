@@ -19,6 +19,7 @@ public class Banco {
     private List<CuentaAhorros> cuentas;
     private List<CDT> cdts;
     private List<TarjetaCredito> tarjetas;
+    private List<Transaccion> transacciones;
     private double totalGananciasCDT;
     private double totalDineroEnCuentas;
 
@@ -54,6 +55,7 @@ public class Banco {
         this.clientes = new ArrayList<Cliente>();
         this.cdts = new ArrayList<CDT>();
         this.tarjetas = new ArrayList<TarjetaCredito>();
+        this.transacciones = new ArrayList<Transaccion>();
 
     }
 
