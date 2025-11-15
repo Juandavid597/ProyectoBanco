@@ -1,15 +1,14 @@
 package com.example.demo.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 
 
@@ -23,6 +22,8 @@ public class Movimiento {
     private LocalDate fecha;
     private String referencia;
     private String cuentaRelacionada;
+    private String cuentaOrigen;
+    private String cuentaDestino;
 
 
     public Movimiento(String tipo, double monto, double saldoAntes, String descripcion, String cuentaRelacionada) {
@@ -36,15 +37,11 @@ public class Movimiento {
         this.fecha = LocalDate.now();
         this.referencia = "PAY-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         this.cuentaRelacionada = cuentaRelacionada;
+
+
     }
 
 
      
-        //Pendiente verificar que funcione la referencia automatimaticamente
-      public  String referenciaPago(){
-
-        return "PAY-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase(); 
-
-    }
     
 }
