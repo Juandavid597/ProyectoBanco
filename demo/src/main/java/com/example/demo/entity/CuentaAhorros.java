@@ -18,6 +18,7 @@ public class CuentaAhorros {
     private String documentoPropietario;
     private double saldo;
     private List<Movimiento> movimientos;
+    private List<Transaccion> transaccionesCliente;
     private LocalDate fechaCreacion;
     private boolean activa;
     private String tipoCuenta;
@@ -30,7 +31,8 @@ public class CuentaAhorros {
         this.id = UUID.randomUUID();
         this.fechaCreacion = LocalDate.now();
         this.numeroCuenta = "ACC-" + id.toString().replaceAll("[^\\d]", "").substring(0, 10);
-        this.movimientos = new ArrayList<>();
+        this.movimientos = new ArrayList<Movimiento>();
+        this.transaccionesCliente = new ArrayList<Transaccion>();
         
         this.nombrePropietario = nombrePropietario;
         this.documentoPropietario = documentoPropietario;
