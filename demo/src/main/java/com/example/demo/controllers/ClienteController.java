@@ -65,7 +65,7 @@ public class ClienteController {
 
         try{
 
-            //Validar numero de docuemnto sea unico
+            //Validar numero de documento sea unico
             Boolean existDocument = fakeDb.getClientes().stream().anyMatch(item -> item.getDocumento().equals(cliente.getDocumento()));
 
             if(existDocument){
