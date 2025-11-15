@@ -14,21 +14,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ClienteDto;
+import com.example.demo.dto.TarjetaCreditoDto;
+import com.example.demo.dto.TarjetaCreditoDtoResponse;
 import com.example.demo.entity.Banco;
 import com.example.demo.entity.Cliente;
+import com.example.demo.entity.TarjetaCredito;
 import com.example.demo.helpers.ResponseHelper;
 
 import jakarta.validation.Valid;
 
-@RestController 
+@RestController
 @RequestMapping("/TarjetaCredito")
 @CrossOrigin("*")
-
 
 // Solicitar número de cuenta
 // Validar que la cuenta exista
 // Verificar que NO tenga una tarjeta ya creada
-
 // Crear objeto TarjetaCredito
 // Asociar tarjeta al cliente
 // Mostrar confirmación
@@ -36,114 +37,148 @@ import jakarta.validation.Valid;
 
 // ✅ Cuenta debe existir
 // ✅ Cliente NO debe tener tarjeta previamente
-// ✅ Cupo entre $500.000 y $5.000.000
 // ✅ La cuenta debe tener mínimo 1 mes de antigüedad (opcional)
 
 public class TarjetaDeCreditoController {
 
     private final Banco fakeDb = Banco.getInstancia();
 
-    //Listar todas las tajetas de credito del banco
+    // Listar todas las tajetas de credito del banco
 
-    @GetMapping 
-    public ResponseEntity<?> ListarClientes(){
+    @GetMapping
+    public ResponseEntity<?> ListarTrajetasCredito() {
 
-        try{
+        try {
 
-            return ResponseHelper.response(HttpStatus.OK, true, fakeDb.getTarjetas(), "Listado de tarjetas de credito creadas en el banco");
+            return ResponseHelper.response(HttpStatus.OK, true, fakeDb.getTarjetas(),
+                    "Listado de tarjetas de credito creadas en el banco");
 
         }
 
-        catch (Exception e){
+        catch (Exception e) {
             return ResponseHelper.catchResponse(e);
         }
     }
-   
-    //buscar información de tarjeta por numero de documento
-    @GetMapping("{documento}") 
-    public ResponseEntity<?> ListarClientesDocumento(@PathVariable String  documento ){
 
-        try{
+    // buscar información de tarjeta por numero de documento
+    @GetMapping("{documento}")
+    public ResponseEntity<?> ListarTarjetaDocumento(@PathVariable String documento) {
 
-            Cliente clientesFound = fakeDb.getClientes().stream().filter((item -> item.getDocumento().equals(documento))).findFirst().orElse(null);
+        try {
 
-            if (clientesFound == null){
-                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encontro registro de cliente con el documento ingresado");
+            Cliente tarjetaFound = fakeDb.getClientes().stream().filter((item -> item.getDocumento().equals(documento)))
+                    .findFirst().orElse(null);
+
+            if (tarjetaFound == null) {
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "",
+                        "No se encontro registro de cliente con el documento ingresado");
             }
 
-            return ResponseHelper.response(HttpStatus.OK, true, fakeDb.getTarjetas(), "Registro de tarjeta de crédito del cliente" + fakeDb.getNombre());
+            if (tarjetaFound.getTarjeta() == null) {
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "",
+                        "El cliente no cuenta con tarjetas de credito");
+            }
+
+            return ResponseHelper.response(HttpStatus.OK, true, fakeDb.getTarjetas(),
+                    "Registro de tarjeta de crédito del cliente" + fakeDb.getNombre());
 
         }
 
-        catch (Exception e){
+        catch (Exception e) {
             return ResponseHelper.catchResponse(e);
         }
     }
 
+    // Solicitar número de cuenta = OK
+    // Validar que la cuenta exista = OK
+    // Verificar que NO tenga una tarjeta ya creada =OK
+    // Crear objeto TarjetaCredito
+    // Asociar tarjeta al cliente
+    // Mostrar confirmación
+    // Validaciones obligatorias:
 
-    @PostMapping
-    public ResponseEntity<?> crearCliente(@Valid @RequestBody ClienteDto cliente, BindingResult result){
-// Validar que el documento no esté registrado
-// Solicitar saldo inicial (mínimo $10.000) = OK
-// Generar número de cuenta único (puede usar UUID o formato numérico) = OK -> se segiere en la clase cuenta de ahorros, pero para el metodo lo solicita el flujo, revisar con PROFESOR
-// Asignar fecha de creación = OK
-// Guardar cliente y cuenta en las estructuras de datos = se guarda correctamente en lista clientes. Se debe guardar cuenta en lista cuenta ahorros?
+    // ✅ Cuenta debe existir
+    // ✅ Cliente NO debe tener tarjeta previamente
+    // ✅ La cuenta debe tener mínimo 1 mes de antigüedad (opcional)
 
+    @PostMapping("/{documento}")
+    public ResponseEntity<?> crearTarjeta(@PathVariable String documento, @Valid @RequestBody TarjetaCreditoDto tarjeta,
+            BindingResult result) {
 
-        if (result.hasErrors()){
+        if (result.hasErrors()) {
             return ResponseHelper.validFields(result);
         }
 
-        try{
+        try {
 
-            //Validar numero de docuemnto sea unico
-            Boolean existDocument = fakeDb.getClientes().stream().anyMatch(item -> item.getDocumento().equals(cliente.getDocumento()));
+            Cliente clienteFound = fakeDb.getClientes().stream().filter((item -> item.getDocumento().equals(documento)))
+                    .findFirst().orElse(null);
 
-            if(existDocument){
-                return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "Ya se encuentra un registro con el numero de documento");
+            if (clienteFound == null) {
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "",
+                        "No se encontro registro de cliente con el documento ingresado");
             }
 
-            //Si no existe el documento agregar a la lista de clientes 
-    
-            Cliente newClient = new Cliente(cliente.getNombre(),cliente.getDocumento(),cliente.getEmail(),cliente.getTelefono(),true);
+            if (clienteFound.getCuenta() == null) {
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "",
+                        "El cliente no tiene cuentas de ahorro en el banco");
+            }
 
-            Banco.getInstancia().getClientes().add(newClient);
+            if (clienteFound.getTarjeta() != null) {
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "",
+                        "El cliente ya tiene una tarjeta registrada en el banco");
+            }
 
-            return ResponseHelper.response(HttpStatus.OK, true, newClient, "El cliente se creo exitosamente en el banco");
+            
+            TarjetaCredito newTarjeta = new TarjetaCredito(clienteFound, tarjeta.getCupoTotal(), 0.0, 0.0, tarjeta.getPagoMinimoPorcentaje(), true);
+
+
+            clienteFound.setTarjeta(newTarjeta);
+
+            fakeDb.getTarjetas().add(newTarjeta);
+
+            TarjetaCreditoDtoResponse tarjetaCreditoDtoResponse=new TarjetaCreditoDtoResponse(newTarjeta.getId(), newTarjeta.getNumeroTarjeta(),newTarjeta.getTitular().getNombre(),newTarjeta.getCupoTotal(),newTarjeta.getCupoDisponible(),newTarjeta.getDeudaActual(),newTarjeta.getFechaEmision(),newTarjeta.getFechaVencimiento(),newTarjeta.getPagoMinimoPorcentaje(),newTarjeta.isActiva());
+
+            return ResponseHelper.response(HttpStatus.OK, true, tarjetaCreditoDtoResponse,
+                    "La tarjeta se creo exitosamente");
+
 
         }
 
-        catch (Exception e){
+        catch (Exception e) {
             return ResponseHelper.catchResponse(e);
         }
     }
 
-    
     @PutMapping("{docuemnto}")
-    public ResponseEntity<?> actualizarCliente(@PathVariable String documento, @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result){
+    public ResponseEntity<?> actualizarCliente(@PathVariable String documento,
+            @Valid @RequestBody ClienteDto actualizarCliente, BindingResult result) {
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return ResponseHelper.validFields(result);
         }
 
-        try{
-            Cliente clientefound = fakeDb.getClientes().stream().filter(item -> item.getDocumento().equals(documento)).findFirst().orElse(null);
+        try {
+            Cliente clientefound = fakeDb.getClientes().stream().filter(item -> item.getDocumento().equals(documento))
+                    .findFirst().orElse(null);
 
-            if(clientefound == null){
-                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentran clientes con el documento ingresado");
+            if (clientefound == null) {
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "",
+                        "No se encuentran clientes con el documento ingresado");
             }
-
 
             // ** validar si le van a cambiar el correo a el usuario
-            if (!clientefound.getDocumento().equals(actualizarCliente.getDocumento())){
+            if (!clientefound.getDocumento().equals(actualizarCliente.getDocumento())) {
 
-            //Validar numero de documento sea unico
-            Boolean existDocument = fakeDb.getClientes().stream().anyMatch(item -> item.getDocumento().equals(actualizarCliente.getDocumento()));
+                // Validar numero de documento sea unico
+                Boolean existDocument = fakeDb.getClientes().stream()
+                        .anyMatch(item -> item.getDocumento().equals(actualizarCliente.getDocumento()));
 
-            if(existDocument){
-                return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "Ya se encuentra un registro con el numero de documento");
+                if (existDocument) {
+                    return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "",
+                            "Ya se encuentra un registro con el numero de documento");
 
-            }
+                }
             }
 
             clientefound.setNombre(actualizarCliente.getNombre());
@@ -155,21 +190,21 @@ public class TarjetaDeCreditoController {
 
         }
 
-
-        catch (Exception e){
+        catch (Exception e) {
             return ResponseHelper.catchResponse(e);
         }
 
-     }
+    }
 
     @DeleteMapping("/{documento}")
-    public ResponseEntity<?> eliminarCliente(@PathVariable String documento){
+    public ResponseEntity<?> eliminarCliente(@PathVariable String documento) {
 
-        try{
+        try {
 
-            Cliente clienteFound = fakeDb.getClientes().stream().filter(item -> item.getDocumento().equals(documento)).findFirst().orElse(null);
+            Cliente clienteFound = fakeDb.getClientes().stream().filter(item -> item.getDocumento().equals(documento))
+                    .findFirst().orElse(null);
 
-            if(clienteFound == null){
+            if (clienteFound == null) {
                 return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "Cliente no encontrado");
             }
 
@@ -178,12 +213,9 @@ public class TarjetaDeCreditoController {
 
         }
 
-        catch (Exception e){
+        catch (Exception e) {
             return ResponseHelper.catchResponse(e);
         }
     }
-    
 
-    
 }
-

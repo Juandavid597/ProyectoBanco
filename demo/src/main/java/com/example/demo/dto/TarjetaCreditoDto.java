@@ -4,7 +4,6 @@ import com.example.demo.entity.Cliente;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +28,8 @@ public class TarjetaCreditoDto {
 @Max(value = 5000000, message = "el cupo maximo es de $5.000.000")
     private double cupoTotal;
 
+
+// double pagoMinimoPorcentaje - Porcentaje de pago mínimo (5%)
 @Min(value = 5, message = "El porcentaje debe ser 5%")
 @Max(value = 5, message = "El porcentaje debe ser 5%")
 private int porcentajePagoMinimo; 
