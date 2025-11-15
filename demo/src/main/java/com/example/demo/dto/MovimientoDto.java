@@ -23,8 +23,8 @@ public class MovimientoDto {
     @NotNull(message = "El monto no debe de estar vacio")
     private double monto;
 
-    @NotBlank(message = "La descripción del movimiento es obligatoria.")
-    private String descripcion;
+    // @NotBlank(message = "La descripción del movimiento es obligatoria.")
+    // private String descripcion;
 
 
 }

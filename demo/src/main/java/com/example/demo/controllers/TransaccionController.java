@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.MovimientoDto;
+
+import com.example.demo.dto.TransaccionDto;
 import com.example.demo.entity.Banco;
-import com.example.demo.entity.Cliente;
 import com.example.demo.entity.CuentaAhorros;
-import com.example.demo.entity.Movimiento;
+import com.example.demo.entity.Transaccion;
 import com.example.demo.helpers.ResponseHelper;
 
 import jakarta.validation.Valid;
@@ -29,50 +29,111 @@ public class TransaccionController {
     private final Banco fakeDb = Banco.getInstancia();
 
 
-    
+    @GetMapping("/{numeroCuenta}")
+    public ResponseEntity<?> listarMovimientos(@PathVariable String  numeroCuenta){
 
 
-    // @PostMapping("/transferencia/{numeroCuenta}")
-    // public ResponseEntity<?> transferirDinero(@PathVariable String numeroCuenta, @Valid @RequestBody MovimientoDto MovimientoActualizar, BindingResult result){
+        try{
+
+            CuentaAhorros cuentaFound = fakeDb.getCuentas().stream().filter(item->item.getNumeroCuenta().equals(numeroCuenta)).findFirst().orElse(null);
+
+            return ResponseHelper.response(HttpStatus.OK, true, cuentaFound.getTransaccionesCliente(), "Listado de todas las Transacciones de la cuenta bancaria buscada.");
+
+        }
+
+        catch(Exception e){
+            return ResponseHelper.catchResponse(e);
+        }
+
+    }
+
+
+    @GetMapping("{numeroCuenta}/{referenciaTransaccion}") //buscar información de cuenta por numero de documento
+    public ResponseEntity<?> buscarMovimientoReferencia(@PathVariable String  numeroCuenta, @PathVariable String referenciatransaccion){
+
+        try{
+
+            CuentaAhorros cuentaFound = fakeDb.getCuentas().stream().filter(item->item.getNumeroCuenta().equals(numeroCuenta)).findFirst().orElse(null);
+
+            if (cuentaFound == null) {
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentra una cuenta asociada con el número de cuenta ingresada");
+            }
+
+            Transaccion transaccionFound = cuentaFound.getTransaccionesCliente().stream().filter((item -> item.getReferenciaTransaccion().equals(referenciatransaccion))).findFirst().orElse(null);
+
+
+            return ResponseHelper.response(HttpStatus.OK, true, transaccionFound, "Movimiento encontrado por referencia");
+
+        }
+
+        catch (Exception e){
+            return ResponseHelper.catchResponse(e);
+        }
+    }
+
+
+    @PostMapping("/transferencia/{numeroCuenta}")
+    public ResponseEntity<?> transferirDinero(@PathVariable String numeroCuenta, @Valid @RequestBody TransaccionDto transaccionActualizar, BindingResult result){
         
 
-    //     if (result.hasErrors()){
-    //         return ResponseHelper.validFields(result);
-    //     }
+        if (result.hasErrors()){
+            return ResponseHelper.validFields(result);
+        }
 
-    //     try{
+        try{
 
-    //         //Validar si existe la cuenta solicitada por numero de cuenta
+            //Buscar cuenta origen
             
-    //         CuentaAhorros cuentaFound = fakeDb.getCuentas().stream().filter(item->item.getNumeroCuenta().equals(numeroCuenta)).findFirst().orElse(null);
+            CuentaAhorros cuentaFound = fakeDb.getCuentas().stream().filter(item->item.getNumeroCuenta().equals(numeroCuenta)).findFirst().orElse(null);
 
-    //         if (cuentaFound == null) {
-    //             return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentra una cuenta asociada con el número de cuenta ingresada");
-    //         }
+            //Validar si existe la cuenta origen
+
+            if (cuentaFound == null) {
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentra una cuenta origen asociada con el número de cuenta ingresada");
+            }
 
 
 
-    //         if (MovimientoActualizar.getMonto()>cuentaFound.getSaldo()) {
-    //             return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "El monto que usted desea retirar supera el valor disponible en su cuenta bancaria.");
-    //         }
+            if (transaccionActualizar.getMonto()>cuentaFound.getSaldo()) {
+                return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "El monto que usted desea transferir supera el valor disponible en su cuenta bancaria.");
+            }
             
     
-    //         //Si el cliente no tiene una cuenta procedemos a crear la respectiva cuenta.
+            //Buscar cuenta destino
 
-    //         // Movimiento newRetiro= new Movimiento(MovimientoActualizar.getTipo(), MovimientoActualizar.getMonto(), cuentaFound.getSaldo(), MovimientoActualizar.getDescripcion(), cuentaFound.getNumeroCuenta(), cuentaFound.getNumeroCuenta(), MovimientoActualizar.getCuentaDestino());
+            CuentaAhorros cuenta2Found = fakeDb.getCuentas().stream().filter(item->item.getNumeroCuenta().equals(transaccionActualizar.getCuentaDestino())).findFirst().orElse(null);
 
+            //validar si existe la otra cuenta
 
-    //         // newRetiro.setSaldoDespues(newRetiro.getSaldoAntes()-newRetiro.getMonto());
+            if (cuenta2Found == null) {
+                return ResponseHelper.response(HttpStatus.NOT_FOUND, false, "", "No se encuentra una cuenta Destino asociada con el número de cuenta ingresada");
+            }
 
-    //         // cuentaFound.getMovimientos().add(newRetiro);
+            if (cuentaFound.getNumeroCuenta().equals(cuenta2Found.getNumeroCuenta())) {
+                return ResponseHelper.response(HttpStatus.BAD_REQUEST, false, "", "Las cuentas ingresadas son iguales, por favor ingresar los valores correctos");
+            }
 
-    //         // return ResponseHelper.response(HttpStatus.OK, true, newRetiro, "Se ha hecho el Retiro correctamente");
+            Transaccion newTransaccion = new Transaccion(cuentaFound.getNumeroCuenta(), cuenta2Found.getNumeroCuenta(), transaccionActualizar.getMonto(), cuentaFound.getSaldo(), cuenta2Found.getSaldo());
 
-    //     }
+            newTransaccion.setDescripcion("Transferencia de una cuenta bancaria a otra.");
 
-    //     catch (Exception e){
-    //         return ResponseHelper.catchResponse(e);
-    //     }
-    // }
+            newTransaccion.setSaldoDespuesOrigen(newTransaccion.getSaldoAntesOrigen() - transaccionActualizar.getMonto());
+            cuentaFound.setSaldo(newTransaccion.getSaldoDespuesOrigen());
+
+            newTransaccion.setSaldoDespuesDestino(newTransaccion.getSaldoAntesDestino() + transaccionActualizar.getMonto());
+            cuenta2Found.setSaldo(newTransaccion.getSaldoDespuesDestino());
+
+            fakeDb.getTransacciones().add(newTransaccion);
+
+            cuentaFound.getTransaccionesCliente().add(newTransaccion);
+
+            return ResponseHelper.response(HttpStatus.OK, true, newTransaccion, "Se ha hecho la transferencia correctamente");
+
+        }
+
+        catch (Exception e){
+            return ResponseHelper.catchResponse(e);
+        }
+    }
     
 }

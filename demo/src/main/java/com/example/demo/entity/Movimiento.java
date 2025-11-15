@@ -26,16 +26,16 @@ public class Movimiento {
     private String cuentaDestino;
 
 
-    public Movimiento(String tipo, double monto, double saldoAntes, String descripcion, String cuentaRelacionada) {
+    public Movimiento(String tipo, double monto, double saldoAntes, String cuentaRelacionada) {
 
         this.id = UUID.randomUUID();      
         this.tipo = tipo;
         this.monto = monto;
         this.saldoAntes = saldoAntes;
         this.saldoDespues = 0;
-        this.descripcion = descripcion;
+        this.descripcion = null;
         this.fecha = LocalDate.now();
-        this.referencia = "PAY-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        this.referencia = "TRANS-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         this.cuentaRelacionada = cuentaRelacionada;
 
 
